@@ -6,20 +6,20 @@
 - AP サーバーを終了させた後のアクセス : 不可
 - AP サーバーを再度起動させた後のアクセス : 可
   
-  ![Puma_Version](images/puma_version.png)
+  ![Puma_Version](/Lecture3/hello_world/images/puma_version.png)
   
-  ![AP_Stop](images/apserver_stop.png)
+  ![AP_Stop](/Lecture3/hello_world/images/apserver_stop.png)
 
-  ![RailsApp](images/railsapp.png)
+  ![RailsApp](/Lecture3/hello_world/images/railsapp.png)
   
 ## DB サーバーについて
 - 名前 : mysql
 - バージョン : 8.0.33
 - DB サーバーを終了させた後のアクセス : 不可
 
-  ![Sql_Version](images/sql_version.png)
+  ![Sql_Version](/Lecture3/hello_world/images/sql_version.png)
   
-  ![DB_stop](images/db_stop.png)
+  ![DB_stop](/Lecture3/hello_world/images/db_stop.png)
 
 ## Railsの構成管理ツールの名前
 - bundler (version : 3.2.14)
