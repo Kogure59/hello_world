@@ -11,11 +11,11 @@
 
 ### EC2インスタンスを作成
 ![EC2](images_lec04/created_ec2_lecture04.png)
-![EC2_SG](images_lec04/ec2_security_group_lecture04.png)
+![EC2_SG](images_lec04/ec2_security_group_lecture04_v2.png)
 
 ### RDSを作成
 ![RDS](images_lec04/created_rds_lecture04.png)
-![RDS_SG](images_lec04/rds_security_group_lecture04.png)
+![RDS_SG](images_lec04/rds_security_group_lecture04_v2.png)
 ![RDS_SubnetG](images_lec04/rds_subnet_group_lecture04.png)
 
 ### EC2からRDSへ接続し、正常であることを確認
