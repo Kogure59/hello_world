@@ -218,8 +218,14 @@ $ sudo systemctl status nginx    # active(running)と表示されればok
   ![Alt text](images_lec05/lecture05/s3_%E5%8B%95%E4%BD%9C%E7%A2%BA%E8%AA%8D_2_3.png)
   ![Alt text](images_lec05/lecture05/s3_%E5%8B%95%E4%BD%9C%E7%A2%BA%E8%AA%8D_2_4.png)
 
+- アプリケーションへの画像アップロードの確認
+![Alt text](images_lec05/lecture05/s3_upload_1.png)
+
+- S3への画像保存確認
+![Alt text](images_lec05/lecture05/s3_upload_2.png)
+
 ## 環境の構成図
-![Alt text](images_lec05/lecture05/lecture05_%E6%A7%8B%E6%88%90%E5%9B%B3.png)
+![Alt text](images_lec05/lecture05/lecture05_%E6%A7%8B%E6%88%90%E5%9B%B3_2.png)
 
 ## 参考記事
 - [【CentOS 7】Nginx + Unicorn で Rails アプリケーションを本番環境で立ち上げる方法](https://zenn.dev/noraworld/articles/deploy-rails-application-with-nginx-and-unicorn)
