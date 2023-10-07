@@ -56,3 +56,4 @@
 - [CloudFormation のための VSCode 環境作成](https://coffee-nominagara.com/cloudformation-vscode-plugins)
 - [セキュリティグループからの通信許可はAWS::EC2::SecurityGroupIngressに書く](https://qiita.com/tsukamoto/items/b37975f7e6db6ee8e4dd)
 - [組み込み関数リファレンス](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html)
+- [AWS CloudFormationでEC2を構築](https://qiita.com/tyoshitake/items/c5176c0ef4de8d7cf5d8)
