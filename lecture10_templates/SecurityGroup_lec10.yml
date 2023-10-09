@@ -6,7 +6,12 @@ Parameters:
     Description: this is base name.
     Type: String
     Default: lecture10 
-
+  
+  MyIP:
+    Description: this is ip address allowed to access EC2. 
+    Type: String
+    AllowedPattern: "^((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$"
+    
 # --------------    
 # Resources
 # --------------
@@ -59,7 +64,7 @@ Resources:
       IpProtocol: tcp
       FromPort: 22
       ToPort: 22
-      CidrIp: 0.0.0.0/0
+      CidrIp: !Sub ${MyIP}/32
       GroupId: !Ref SecGroupEC2
 
 # -------------------

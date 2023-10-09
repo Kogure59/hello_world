@@ -33,7 +33,7 @@
 - セキュリティグループ
 ![Alt text](images_lec10/lecture10/secGroup_alb_inbound_lec10.png)
 ![Alt text](images_lec10/lecture10/secGroup_alb_outbound_lec10.png)
-![Alt text](images_lec10/lecture10/secGroup_ec2_inbound_lec10.png)
+![Alt text](images_lec10/lecture10/secGroup_ec2_inbound_lec10_v2.png)
 ![Alt text](images_lec10/lecture10/secGroup_ec2_outbound_lec10.png)
 ![Alt text](images_lec10/lecture10/secGroup_rds_inbound_lec10.png)
 ![Alt text](images_lec10/lecture10/secGroup_rds_outbound_lec10.png)
@@ -57,3 +57,4 @@
 - [セキュリティグループからの通信許可はAWS::EC2::SecurityGroupIngressに書く](https://qiita.com/tsukamoto/items/b37975f7e6db6ee8e4dd)
 - [組み込み関数リファレンス](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html)
 - [AWS CloudFormationでEC2を構築](https://qiita.com/tyoshitake/items/c5176c0ef4de8d7cf5d8)
+- [IPアドレス(IPv4)の正規表現](https://www.javadrive.jp/regex-basic/sample/index4.html)
