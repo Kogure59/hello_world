@@ -1,0 +1,124 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: security group template 
+
+Parameters:
+  NameBase:
+    Description: this is base name.
+    Type: String
+    Default: lecture10 
+  
+  MyIP:
+    Description: this is ip address allowed to access EC2. 
+    Type: String
+    AllowedPattern: "^((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$"
+    
+# --------------    
+# Resources
+# --------------
+Resources: 
+
+# ---------------------------
+# Security Group for ALB 
+# ---------------------------
+  SecGroupALB:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: !Sub "${NameBase}-secGroup-alb"
+      GroupDescription: security group for alb
+      VpcId: !ImportValue VPC
+      Tags:
+        - Key: Name
+          Value: !Sub "${NameBase}-secGroup-alb"
+
+# -------------------
+# Inbound Rule 1 
+# -------------------
+  SecGroupALBIngress1:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      IpProtocol: tcp
+      FromPort: 80
+      ToPort: 80
+      CidrIp: 0.0.0.0/0 
+      GroupId: !Ref SecGroupALB
+
+# ---------------------------
+# Security Group for EC2  
+# ---------------------------
+  SecGroupEC2:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: !Sub "${NameBase}-secGroup-ec2"
+      GroupDescription: security group for ec2
+      VpcId: !ImportValue VPC
+      Tags:
+        - Key: Name
+          Value: !Sub "${NameBase}-secGroup-ec2"
+
+# -------------------
+# Inbound Rule 1 
+# -------------------
+  SecGroupEC2Ingress1:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      IpProtocol: tcp
+      FromPort: 22
+      ToPort: 22
+      CidrIp: !Sub ${MyIP}/32
+      GroupId: !Ref SecGroupEC2
+
+# -------------------
+# Inbound Rule 2
+# -------------------
+  SecGroupEC2Ingress2:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      IpProtocol: tcp
+      FromPort: 80
+      ToPort: 80
+      SourceSecurityGroupId: !Ref SecGroupALB
+      GroupId: !Ref SecGroupEC2    
+
+# ---------------------------
+# Security Group for RDS  
+# ---------------------------
+  SecGroupRDS:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: !Sub "${NameBase}-secGroup-rds"
+      GroupDescription: security group for rds
+      VpcId: !ImportValue VPC
+      Tags:
+        - Key: Name
+          Value: !Sub "${NameBase}-secGroup-rds"
+
+# -------------------
+# Inbound Rule 1
+# -------------------
+  SecGroupRDSIngress1:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      IpProtocol: tcp
+      FromPort: 3306
+      ToPort: 3306
+      SourceSecurityGroupId: !Ref SecGroupEC2
+      GroupId: !Ref SecGroupRDS
+
+# ------------
+# Outputs
+# ------------ 
+Outputs:
+  SecGroupALB:
+    Value: !Ref SecGroupALB
+    Export: 
+      Name: SecGroupALB
+
+  SecGroupEC2:
+    Value: !Ref SecGroupEC2
+    Export: 
+      Name: SecGroupEC2
+
+  SecGroupRDS:
+    Value: !Ref SecGroupRDS
+    Export: 
+      Name: SecGroupRDS
