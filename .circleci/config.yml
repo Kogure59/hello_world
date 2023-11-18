@@ -1,6 +1,15 @@
 version: 2.1
 orbs:
   python: circleci/python@2.0.3
+  aws-cli: circleci/aws-cli@4.1.1
+  ansible: orbss/ansible-playbook@0.0.5
+  ruby: circleci/ruby@2.1.0
+
+executors:
+  ansible:
+    docker:
+      - image: # my docker image name 
+
 jobs:
   cfn-lint:
     executor: python/default
@@ -12,7 +21,55 @@ jobs:
           command: |
             cfn-lint -i W3002 -t cloudformation/*.yml
 
+  execute-cfn:
+    executor: aws-cli/default
+    steps:
+      - checkout
+      - aws-cli/setup:
+          aws-access-key-id: AWS_ACCESS_KEY_ID
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+          aws-region: AWS_DEFAULT_REGION
+      - run: 
+          name: deploy CloudFormation
+          command: |
+            bash -c '
+              aws cloudformation deploy --template-file cloudformation/VPC_lec10.yml --stack-name lecture10-VPC
+              aws cloudformation deploy --template-file cloudformation/SecuriyGroup_lec10.yml --stack-name lecture10-SecurityGroup
+              aws cloudformation deploy --template-file cloudformation/EC2_lec10.yml --stack-name lecture10-EC2 --capabilities CAPABILITY_IAM
+              aws cloudformation deploy --template-file cloudformation/ALB_lec10.yml --stack-name lecture10-ALB
+              aws cloudformation deploy --template-file cloudformation/RDS_lec10.yml --stack-name lecture10-RDS
+              aws cloudformation deploy --template-file cloudformation/S3_lec10.yml --stack-name lecture10-S3
+            '
+
+  execute-ansible:
+    executor: ansible
+    steps:
+      - checkout
+      - run:
+          name: Show Ansible version
+          command: ansible --version
+      - run:
+          name: Execute Ansible Playbook
+          command: |
+            docker exec -it <# my docker name> ansible-playbook -i inventory playbook.yml
+
+  execute-serverspec:
+    executor: ruby/default
+    steps:
+      - checkout
+      - run:
+          name: Run Serverspec Tests
+          command: |
+            cd ./serverspec
+            rake spec
+
+
 workflows:
   raisetech:
     jobs:
       - cfn-lint
+      - execute-cfn:
+          requires:
+            - cfn-lint
+      - execute-ansible
+      - execute-serverspec
