@@ -82,3 +82,9 @@ Outputs:
     Value: !Ref EC2
     Export: 
       Name: EC2
+
+  IAMRoleARN:
+    Description: IAM role arn
+    Value: !GetAtt IAMRole.Arn
+    Export: 
+      Name: IAMRoleARN
