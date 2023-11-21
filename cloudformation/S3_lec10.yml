@@ -7,10 +7,6 @@ Parameters:
     Type: String
     Default: lecture10 
 
-  ExternalIAMRoleARN:
-    Description: IAM Role ARN from another stack
-    Type: String
-
 # --------------    
 # Resources
 # --------------
@@ -45,7 +41,7 @@ Resources:
           - Effect: "Allow"
             Principal:
               AWS: 
-                - !Ref ExternalIAMRoleARN
+                - !ImportValue EC2_lec10.yml-IAMRoleARN
             Action:
               - "s3:GetObject"
               - "s3:PutObject"

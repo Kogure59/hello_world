@@ -36,7 +36,7 @@ Resources:
               Service: "ec2.amazonaws.com"
             Action: "sts:AssumeRole"
       ManagedPolicyArns:
-           - arn:aws:iam::aws:policy/AmazonS3FullAccess
+        - arn:aws:iam::aws:policy/AmazonS3FullAccess
 
 # -------------------------
 # IAM Instance Profile
@@ -58,11 +58,11 @@ Resources:
       DisableApiTermination: false
       ImageId: ami-09bad682e5ae72267
       NetworkInterfaces:
-           - AssociatePublicIpAddress: true
-             DeviceIndex: 0
-             SubnetId: !ImportValue PublicSubnet1a
-             GroupSet:
-                  - !ImportValue SecGroupEC2
+        - AssociatePublicIpAddress: true
+          DeviceIndex: 0
+          SubnetId: !ImportValue PublicSubnet1a
+          GroupSet:
+            - !ImportValue SecGroupEC2
       InstanceType: t2.micro
       IamInstanceProfile: !Ref IAMInstanceProfile
       Monitoring: false
