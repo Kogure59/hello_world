@@ -29,7 +29,7 @@ jobs:
           command: |
               set -x
               aws cloudformation deploy --template-file cloudformation/VPC_lec10.yml --stack-name lecture10-VPC
-              aws cloudformation deploy --template-file cloudformation/SecuriyGroup_lec10.yml --stack-name lecture10-SecurityGroup
+              aws cloudformation deploy --template-file cloudformation/SecurityGroup_lec10.yml --stack-name lecture10-SecurityGroup
               aws cloudformation deploy --template-file cloudformation/EC2_lec10.yml --stack-name lecture10-EC2 --capabilities CAPABILITY_IAM
               aws cloudformation deploy --template-file cloudformation/ALB_lec10.yml --stack-name lecture10-ALB
               aws cloudformation deploy --template-file cloudformation/RDS_lec10.yml --stack-name lecture10-RDS
