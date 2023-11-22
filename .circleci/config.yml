@@ -32,7 +32,7 @@ jobs:
               aws cloudformation deploy --template-file cloudformation/SecurityGroup_lec10.yml --stack-name lecture10-SecurityGroup --parameter-overrides MyIP=$MyIP
               aws cloudformation deploy --template-file cloudformation/EC2_lec10.yml --stack-name lecture10-EC2 --capabilities CAPABILITY_IAM
               aws cloudformation deploy --template-file cloudformation/ALB_lec10.yml --stack-name lecture10-ALB
-              aws cloudformation deploy --template-file cloudformation/RDS_lec10.yml --stack-name lecture10-RDS --parameter overrides RDSUserPassword=$RDSUserPassword
+              aws cloudformation deploy --template-file cloudformation/RDS_lec10.yml --stack-name lecture10-RDS --parameter-overrides RDSUserPassword=$RDSUserPassword
               aws cloudformation deploy --template-file cloudformation/S3_lec10.yml --stack-name lecture10-S3
 
   # execute-ansible:
