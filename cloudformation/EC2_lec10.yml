@@ -88,8 +88,8 @@ Resources:
   EIPAssociation:
     Type: AWS::EC2::EIPAssociation
     Properties:
+      AllocationId: !Ref ElasticIP
       InstanceId: !Ref EC2
-      EIP: !Ref ElasticIP
 
 # ------------
 # Outputs
