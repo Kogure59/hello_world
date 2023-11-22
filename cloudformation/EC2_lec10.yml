@@ -52,9 +52,9 @@ Resources:
 # Elastic IP
 # ---------------
   ElasticIP:
-  Type: AWS::EC2::EIP
-  Properties:
-    Domain: vpc
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
 
 # -----------------
 # EC2 Instance
