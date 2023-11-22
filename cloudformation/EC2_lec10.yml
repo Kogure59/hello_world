@@ -48,6 +48,14 @@ Resources:
       Roles:
         - !Ref IAMRole
 
+# ---------------
+# Elastic IP
+# ---------------
+  ElasticIP:
+  Type: AWS::EC2::EIP
+  Properties:
+    Domain: vpc
+
 # -----------------
 # EC2 Instance
 # -----------------
@@ -73,6 +81,15 @@ Resources:
       Tags:
         - Key: Name
           Value: !Sub "${NameBase}-ec2"
+
+# ---------------------------
+# Elastic IP Association
+# ---------------------------
+  EIPAssociation:
+    Type: AWS::EC2::EIPAssociation
+    Properties:
+      InstanceId: !Ref EC2
+      EIP: !Ref ElasticIP
 
 # ------------
 # Outputs
