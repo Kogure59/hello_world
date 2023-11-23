@@ -1,0 +1,27 @@
+---
+- name: Remove mariadb-libs
+  yum:
+    name: mariadb-libs
+    state: absent
+
+- name: Install MySQL 8.0 community release RPM
+  command:
+    cmd: yum localinstall -y https://dev.mysql.com/get/mysql80-community-release-el7-9.noarch.rpm
+  register: mysql_repo_installed
+
+- name: Enable mysql80-community
+  shell: |
+    yum-config-manager --disable mysql57-community
+    yum-config-manager --enable mysql80-community
+
+- name: install mysql-community-client
+  yum:
+    name: mysql-community-client
+    state: present
+  when: mysql_repo_installed.changed
+
+- name: Install MySQL development tools
+  yum:
+    name: mysql-community-devel
+    state: present
+  when: mysql_repo_installed.changed

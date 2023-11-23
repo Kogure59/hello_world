@@ -1,0 +1,2 @@
+[host]
+3.112.68.43 ansible_ssh_user=ec2-user /root/.ssh/raisetech-test-keypair.pem=/C:/Users/user/.ssh/raisetech-test-keypair.pem

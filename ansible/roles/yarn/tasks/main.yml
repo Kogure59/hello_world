@@ -1,0 +1,12 @@
+---
+- name: Check if yarn is installed
+  become: no
+  command: yarn --version
+  register: yarn_installed
+  ignore_errors: yes
+
+- name: Install yarn
+  npm:
+    name: yarn
+    global: yes
+  when: yarn_installed is failed
