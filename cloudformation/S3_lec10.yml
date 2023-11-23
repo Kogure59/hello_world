@@ -41,7 +41,7 @@ Resources:
           - Effect: "Allow"
             Principal:
               AWS: 
-                - !ImportValue EC2_lec10.yml-IAMRoleARN
+                - !ImportValue IAMRoleARN
             Action:
               - "s3:GetObject"
               - "s3:PutObject"
