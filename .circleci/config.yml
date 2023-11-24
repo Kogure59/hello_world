@@ -46,7 +46,7 @@ jobs:
             - "f3:3d:1a:c4:e1:68:9c:01:4d:4d:c9:3e:af:ad:9a:22"
       - ansible-playbook/playbook:
           playbook: ansible/playbook.yml
-          playbook-options: '-i anisble/inventory'
+          playbook-options: '-i ansible/inventory'
 
   # execute-serverspec:
   #   executor: ruby/default
