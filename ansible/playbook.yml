@@ -1,6 +1,5 @@
 ---
-- hosts: 
-    - host
+- hosts: web
   become: yes
   roles:
     - { role: yum, tags: yum }
