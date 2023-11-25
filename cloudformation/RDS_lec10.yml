@@ -32,8 +32,8 @@ Resources:
       DBSubnetGroupDescription: subnet group for rds
       DBSubnetGroupName: !Sub "${NameBase}-sbnGroup"
       SubnetIds: 
-        - !ImportValue PrivateSubnet-1a
-        - !ImportValue PrivateSubnet-1c 
+        - !ImportValue PrivateSubnet1a
+        - !ImportValue PrivateSubnet1c 
       Tags: 
         - Key: Name
           Value: !Sub "${NameBase}-sbnGroup"

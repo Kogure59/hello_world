@@ -185,14 +185,14 @@ Outputs:
   PublicSubnet1c:
     Value: !Ref PublicSubnet1c
     Export: 
-      Name: PublicSubnet-1c
+      Name: PublicSubnet1c
 
   PrivateSubnet1a:
     Value: !Ref PrivateSubnet1a
     Export: 
-      Name: PrivateSubnet-1a
+      Name: PrivateSubnet1a
 
   PrivateSubnet1c:
     Value: !Ref PrivateSubnet1c
     Export: 
-      Name: PrivateSubnet-1c
+      Name: PrivateSubnet1c
