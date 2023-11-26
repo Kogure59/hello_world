@@ -68,7 +68,7 @@ Resources:
       NetworkInterfaces:
         - AssociatePublicIpAddress: true
           DeviceIndex: 0
-          SubnetId: !ImportValue PublicSubnet-1a
+          SubnetId: !ImportValue PublicSubnet1a
           GroupSet:
             - !ImportValue SecGroupEC2
       InstanceType: t2.micro
