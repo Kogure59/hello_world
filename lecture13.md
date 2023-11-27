@@ -2,7 +2,22 @@
 #### CircleCI のサンプルに ServerSpec や Ansible の処理を追加してください。
 Ansible はいきなりやりたいことを実装するのではなく、最低限の「必ず成功する Playbook」を用意して徐々に仕事を追加しましょう。
 ## 実施内容
-### ローカルでAnsibleを実行
+### CircleCIの実行
+- CircleCI で作業の自動化 [.circleci/config.yml](.circleci/config.yml)
+- CloudFormation で環境構築の自動化 [cloudformation/](cloudformation/)
+- Ansible でプロビジョニング [asnible/](ansible/)
+- ServerSpec でテストの自動化
+#### 実行結果
+- cfn-lint
+
+- execute-cfn
+
+- execute-ansible
+
+- execute-serverspec
+#### Pipeline
+
+### ローカルでAnsibleを試行
 - Windows に Docker for Desktop をインストール
 - ローカルディレクトリに Dockerfile を配置
     ```Dockerfile
@@ -37,16 +52,9 @@ Ansible はいきなりやりたいことを実装するのではなく、最低
     ansible-playbook playbook.yml -i inventory -vvv
     ansible-playbook playbook.yml -i inventory 
     ```
-### CircleCIの実行
-- cfn-lint
 
-- execute-cfn
-
-- execute-ansible
-
-- execute-serverspec
-
----
-### 参考
+## 参考
 - [Windows10 に ゼロから Ansible をインストールする](https://qiita.com/Tkm08/items/58e1fb7990387a2e9c76)
+- [WindowsにCircleCI コマンドをインストール](https://net-newbie.com/2020/08/29/install-circleci-on-windows/)
+- [Ansible - ディレクトリ構成について](https://qiita.com/makaaso-tech/items/0375081c1600b312e8b0)
 - [Ansible community documentation](https://docs.ansible.com/)
