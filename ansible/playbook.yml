@@ -1,5 +1,5 @@
 ---
-- hosts: web
+- hosts: target_node
   become: yes
   roles:
     - { role: yum, tags: yum }
