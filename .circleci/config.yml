@@ -2,7 +2,7 @@ version: 2.1
 orbs:
   python: circleci/python@2.0.3
   aws-cli: circleci/aws-cli@4.1.1
-  # ansible-playbook: orbss/ansible-playbook@0.0.5
+  ansible-playbook: orbss/ansible-playbook@0.0.5
   # ruby: circleci/ruby@2.1.0
 
 jobs:
@@ -35,18 +35,18 @@ jobs:
               aws cloudformation deploy --template-file cloudformation/RDS_lec10.yml --stack-name lecture10-RDS --parameter-overrides RDSUserPassword=$RDSUserPassword
               aws cloudformation deploy --template-file cloudformation/S3_lec10.yml --stack-name lecture10-S3
 
-  # execute-ansible:
-  #   executor: ansible-playbook/default
-  #   steps:
-  #     - checkout
-  #     - ansible-playbook/install:
-  #         version: 2.9.27
-  #     - add_ssh_keys:
-  #         fingerprints:
-  #           - ""
-  #     - ansible-playbook/playbook:
-  #         playbook: ansible/playbook.yml
-  #         playbook-options: '-i ansible/inventory'
+  execute-ansible:
+    executor: ansible-playbook/default
+    steps:
+      - checkout
+      - ansible-playbook/install:
+          version: 2.9.27
+      - add_ssh_keys:
+          fingerprints:
+            - "af:0d:22:7d:d2:62:34:7d:89:fa:21:33:e0:7f:71:2c"
+      - ansible-playbook/playbook:
+          playbook: ansible/playbook.yml
+          playbook-options: '-i ansible/inventory'
 
   # execute-serverspec:
   #   executor: ruby/default
@@ -64,9 +64,9 @@ workflows:
       - execute-cfn:
           requires:
             - cfn-lint
-      # - execute-ansible:
-      #     requires:
-      #       - execute-cfn
+      - execute-ansible:
+          requires:
+            - execute-cfn
       # - execute-serverspec:
       #     requires:
       #       - execute-ansible
