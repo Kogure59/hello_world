@@ -3,7 +3,7 @@ orbs:
   python: circleci/python@2.0.3
   aws-cli: circleci/aws-cli@4.1.1
   ansible-playbook: orbss/ansible-playbook@0.0.5
-  # ruby: circleci/ruby@2.1.0
+  ruby: circleci/ruby@2.1.0
 
 jobs:
   cfn-lint:
@@ -55,14 +55,20 @@ jobs:
           playbook: ansible/playbook.yml
           playbook-options: "-i ansible/inventory"
 
-  # execute-serverspec:
-  #   executor: ruby/default
-  #   steps:
-  #     - checkout
-  #     - ruby/install:
-  #         version: '3.1.2'
-  #     - ruby/install-deps:
-  #         app-dir: serverspec
+  execute-serverspec:
+    executor: ruby/default
+    steps:
+      - checkout
+      - ruby/install:
+          version: 3.1.2
+      - ruby/install-deps:
+          bundler-version: 2.3.14
+          app-dir: serverspec
+      - run:
+          name: execute serverspec
+          command: |
+            cd serverspec
+            bundle exec rake spec
 
 workflows:
   raisetech:
@@ -74,6 +80,6 @@ workflows:
       - execute-ansible:
           requires:
             - execute-cfn
-      # - execute-serverspec:
-      #     requires:
-      #       - execute-ansible
+      - execute-serverspec:
+          requires:
+            - execute-ansible

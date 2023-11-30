@@ -25,5 +25,4 @@
       - readline-devel 
       - ImageMagick 
       - ImageMagick-devel
-      - ncurses-devel
     state: present
