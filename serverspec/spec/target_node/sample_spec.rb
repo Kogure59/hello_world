@@ -1,7 +1,5 @@
 require 'spec_helper'
 
-host_name = ENV['TARGET_HOST']
-
 # Rubyのバージョンが3.1.2か確認する
 describe command('ruby -v') do
   let(:disable_sudo) { true }

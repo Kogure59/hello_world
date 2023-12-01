@@ -39,7 +39,6 @@ GEM
       sfl
 
 PLATFORMS
-  x64-mingw-ucrt
   x86_64-linux
 
 DEPENDENCIES
@@ -49,4 +48,4 @@ DEPENDENCIES
   serverspec
 
 BUNDLED WITH
-   2.3.26
+   2.3.14
