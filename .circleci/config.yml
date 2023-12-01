@@ -62,7 +62,6 @@ jobs:
       - ruby/install:
           version: 3.1.2
       - ruby/install-deps:
-          bundler-version: 2.3.14
           app-dir: serverspec
       - run:
           name: execute serverspec
