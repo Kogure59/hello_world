@@ -2,12 +2,14 @@ require 'spec_helper'
 
 # Rubyのバージョンが3.1.2か確認する
 describe command('ruby -v') do
-  its(:stdout) { should match/Ruby version 3\.1\.2/ }
+  let(:disable_sudo) { true }
+  its(:stdout) { should match /ruby 3\.1\.2/ }
 end
 
 # Bundlerのバージョンが2.3.14か確認する
 describe command('bundler -v') do
-  its(:stdout) { should match/Bundler version 2\.3\.14/ }
+  let(:disable_sudo) { true }
+  its(:stdout) { should match /Bundler version 2\.3\.14/ }
 end
 
 # 複数のパッケージがインストールされているかまとめて確認する
