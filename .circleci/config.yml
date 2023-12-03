@@ -62,7 +62,7 @@ jobs:
       - ruby/install:
           version: 3.1.2
       - run:
-          command: mv /serverspec/spec/target_node /serverspec/spec/$TARGET_HOST
+          command: mv ./serverspec/spec/target_node ./serverspec/spec/$TARGET_HOST
       - ruby/install-deps:
           app-dir: serverspec
       - run:
