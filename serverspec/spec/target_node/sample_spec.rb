@@ -15,7 +15,7 @@ end
 end
 
 # listen port で指定したポートを Listen しているか確認する
-describe port(liseten_port) do
+describe port(listen_port) do
   it { should be_listening }
 end
 
