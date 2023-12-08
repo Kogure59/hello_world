@@ -46,11 +46,10 @@ jobs:
             - "af:0d:22:7d:d2:62:34:7d:89:fa:21:33:e0:7f:71:2c"
       - run:
           name: add fingerprint of host key to known hosts
-          command: ssh-keyscan -H $ElasticIP >> $HOME/.ssh/known_hosts
+          command: ssh-keyscan -H $ElasticIP >> $HOME/.ssh/known_hosts  # ElasticIP に関連する SSH 公開鍵を取得し、known_hosts ファイルに追記
       - run:
           name: replace specific string with environment variable
-          command: |
-            sed -i "s/<ElasticIP>/$ElasticIP/" ./ansible/inventory
+          command: sed -i "s/<ElasticIP>/$ElasticIP/" ./ansible/inventory  # inventory ファイルの <ElasticIP> を環境変数の値に置換
       - ansible-playbook/playbook:
           playbook: ansible/playbook.yml
           playbook-options: "-i ansible/inventory"
@@ -62,7 +61,8 @@ jobs:
       - ruby/install:
           version: 3.1.2
       - run:
-          command: mv ./serverspec/spec/target_node ./serverspec/spec/$TARGET_HOST
+          name: Change ServerSpec host folder name
+          command: mv ./serverspec/spec/target_node ./serverspec/spec/$TARGET_HOST  # 動的にホストネームを変更
       - ruby/install-deps:
           app-dir: serverspec
       - run:
