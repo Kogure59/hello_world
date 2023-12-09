@@ -17,8 +17,7 @@ Resources:
 # --------------
   S3Bucket:
     Type: AWS::S3::Bucket
-    Properties: 
-      AccessControl: Private 
+    Properties:  
       BucketName: !Sub "${NameBase}-s3-s3bucket"
       PublicAccessBlockConfiguration:
         BlockPublicAcls: true
@@ -42,7 +41,7 @@ Resources:
           - Effect: "Allow"
             Principal:
               AWS: 
-                - "arn:aws:iam::769879083332:role/lecture10-EC2-IAMRole-PUYI5QHW9ILR"
+                - !ImportValue IAMRoleARN
             Action:
               - "s3:GetObject"
               - "s3:PutObject"

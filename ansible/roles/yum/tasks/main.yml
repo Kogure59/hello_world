@@ -1,0 +1,28 @@
+---
+- name: Upgrade all packages
+  ansible.builtin.yum:
+    name: '*'
+    state: latest
+    
+- name: Install necessary packages for yum
+  ansible.builtin.yum:
+    name: 
+      - git
+      - make 
+      - gcc-c++ 
+      - patch 
+      - curl 
+      - openssl-devel 
+      - libcurl-devel 
+      - libyaml-devel 
+      - libffi-devel 
+      - libicu-devel 
+      - libxml2 
+      - libxslt 
+      - libxml2-devel 
+      - libxslt-devel 
+      - zlib-devel 
+      - readline-devel 
+      - ImageMagick 
+      - ImageMagick-devel
+    state: present

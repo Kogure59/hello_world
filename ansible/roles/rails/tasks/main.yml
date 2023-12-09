@@ -1,0 +1,10 @@
+---
+- name: Check if Rails is installed
+  become: no
+  command: "gem list rails | grep -q '{{ rails_version }}'"
+  register: rails_installed
+  ignore_errors: yes
+
+- name: Install Rails
+  shell: "gem install rails -v '{{ rails_version }}'"
+  when: rails_installed is failed

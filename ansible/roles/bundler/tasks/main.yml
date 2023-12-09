@@ -1,0 +1,18 @@
+---
+- name: Check if Bundler is installed
+  command: "bundler -v | grep {{ bundler_version }}"
+  register: bundler_check
+  changed_when: no
+  ignore_errors: yes
+
+- name: Install Bundler
+  gem:
+    name: bundler
+    version: "{{ bundler_version }}"
+    executable: /home/ec2-user/.rbenv/shims/gem
+    user_install: no
+  when: bundler_check is failed
+
+- name: Display bundler_check variable
+  debug:
+    var: bundler_check

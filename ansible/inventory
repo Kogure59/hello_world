@@ -1,0 +1,2 @@
+[target_node]
+<ElasticIP> ansible_ssh_user=ec2-user

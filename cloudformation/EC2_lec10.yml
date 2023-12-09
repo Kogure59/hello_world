@@ -36,7 +36,7 @@ Resources:
               Service: "ec2.amazonaws.com"
             Action: "sts:AssumeRole"
       ManagedPolicyArns:
-           - arn:aws:iam::aws:policy/AmazonS3FullAccess
+        - arn:aws:iam::aws:policy/AmazonS3FullAccess
 
 # -------------------------
 # IAM Instance Profile
@@ -48,6 +48,14 @@ Resources:
       Roles:
         - !Ref IAMRole
 
+# ---------------
+# Elastic IP
+# ---------------
+  ElasticIP:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+
 # -----------------
 # EC2 Instance
 # -----------------
@@ -58,11 +66,11 @@ Resources:
       DisableApiTermination: false
       ImageId: ami-09bad682e5ae72267
       NetworkInterfaces:
-           - AssociatePublicIpAddress: true
-             DeviceIndex: 0
-             SubnetId: !ImportValue PublicSubnet1a
-             GroupSet:
-                  - !ImportValue SecGroupEC2
+        - AssociatePublicIpAddress: true
+          DeviceIndex: 0
+          SubnetId: !ImportValue PublicSubnet1a
+          GroupSet:
+            - !ImportValue SecGroupEC2
       InstanceType: t2.micro
       IamInstanceProfile: !Ref IAMInstanceProfile
       Monitoring: false
@@ -74,6 +82,15 @@ Resources:
         - Key: Name
           Value: !Sub "${NameBase}-ec2"
 
+# ---------------------------
+# Elastic IP Association
+# ---------------------------
+  EIPAssociation:
+    Type: AWS::EC2::EIPAssociation
+    Properties:
+      AllocationId: !GetAtt ElasticIP.AllocationId
+      InstanceId: !Ref EC2
+
 # ------------
 # Outputs
 # ------------ 
@@ -82,3 +99,9 @@ Outputs:
     Value: !Ref EC2
     Export: 
       Name: EC2
+
+  IAMRoleARN:
+    Description: IAM role arn
+    Value: !GetAtt IAMRole.Arn
+    Export: 
+      Name: IAMRoleARN

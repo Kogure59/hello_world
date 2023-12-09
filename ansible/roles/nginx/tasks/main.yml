@@ -1,0 +1,27 @@
+---
+- name: Check if Nginx is installed
+  command: nginx -v
+  register: nginx_check
+  changed_when: no
+  ignore_errors: yes
+
+- name: Install Nginx if not already installed
+  command: amazon-linux-extras install -y nginx1
+  when: nginx_check is failed
+
+- name: Copy Rails configuration file for Nginx
+  template:
+    src: rails.conf.j2
+    dest: /etc/nginx/conf.d/rails.conf
+
+- name: Start Nginx
+  service:
+    name: nginx
+    state: started
+  register: nginx_started
+
+- name: Start Unicorn if Nginx is running
+  command: bundle exec unicorn_rails -c config/unicorn.rb -E development -D
+  args:
+    chdir: "{{ app_directory }}"
+  when: nginx_started.changed

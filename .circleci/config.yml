@@ -1,6 +1,10 @@
 version: 2.1
 orbs:
   python: circleci/python@2.0.3
+  aws-cli: circleci/aws-cli@4.1.1
+  ansible-playbook: orbss/ansible-playbook@0.0.5
+  ruby: circleci/ruby@2.1.0
+
 jobs:
   cfn-lint:
     executor: python/default
@@ -12,7 +16,71 @@ jobs:
           command: |
             cfn-lint -i W3002 -t cloudformation/*.yml
 
+  execute-cfn:
+    executor: aws-cli/default
+    steps:
+      - checkout
+      - aws-cli/setup:
+          aws_access_key_id: AWS_ACCESS_KEY_ID
+          aws_secret_access_key: AWS_SECRET_ACCESS_KEY
+          region: AWS_DEFAULT_REGION
+      - run: 
+          name: deploy CloudFormation
+          command: |
+              set -x
+              aws cloudformation deploy --template-file cloudformation/VPC_lec10.yml --stack-name lecture10-VPC
+              aws cloudformation deploy --template-file cloudformation/SecurityGroup_lec10.yml --stack-name lecture10-SecurityGroup --parameter-overrides MyIP=$MyIP
+              aws cloudformation deploy --template-file cloudformation/EC2_lec10.yml --stack-name lecture10-EC2 --capabilities CAPABILITY_IAM
+              aws cloudformation deploy --template-file cloudformation/ALB_lec10.yml --stack-name lecture10-ALB
+              aws cloudformation deploy --template-file cloudformation/RDS_lec10.yml --stack-name lecture10-RDS --parameter-overrides RDSUserPassword=$RDSUserPassword
+              aws cloudformation deploy --template-file cloudformation/S3_lec10.yml --stack-name lecture10-S3
+
+  execute-ansible:
+    executor: ansible-playbook/default
+    steps:
+      - checkout
+      - ansible-playbook/install:
+          version: 2.9.27
+      - add_ssh_keys:
+          fingerprints:
+            - "af:0d:22:7d:d2:62:34:7d:89:fa:21:33:e0:7f:71:2c"
+      - run:
+          name: add fingerprint of host key to known hosts
+          command: ssh-keyscan -H $ElasticIP >> $HOME/.ssh/known_hosts  # ElasticIP に関連する SSH 公開鍵を取得し、known_hosts ファイルに追記
+      - run:
+          name: replace specific string with environment variable
+          command: sed -i "s/<ElasticIP>/$ElasticIP/" ./ansible/inventory  # inventory ファイルの <ElasticIP> を環境変数の値に置換
+      - ansible-playbook/playbook:
+          playbook: ansible/playbook.yml
+          playbook-options: "-i ansible/inventory"
+
+  execute-serverspec:
+    executor: ruby/default
+    steps:
+      - checkout
+      - ruby/install:
+          version: 3.1.2
+      - run:
+          name: Change ServerSpec host folder name
+          command: mv ./serverspec/spec/target_node ./serverspec/spec/$TARGET_HOST  # 動的にホストネームを変更
+      - ruby/install-deps:
+          app-dir: serverspec
+      - run:
+          name: execute serverspec
+          command: |
+            cd serverspec
+            bundle exec rake spec
+
 workflows:
   raisetech:
     jobs:
       - cfn-lint
+      - execute-cfn:
+          requires:
+            - cfn-lint
+      - execute-ansible:
+          requires:
+            - execute-cfn
+      - execute-serverspec:
+          requires:
+            - execute-ansible

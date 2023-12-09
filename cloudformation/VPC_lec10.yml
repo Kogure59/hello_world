@@ -125,13 +125,21 @@ Resources:
 # ------------------------ 
 # Private Route Table
 # ------------------------  
-  PrivateRouteTable:
+  PrivateRouteTable1a:
     Type: AWS::EC2::RouteTable
     Properties:
       VpcId: !Ref VPC
       Tags:
         - Key: Name
-          Value: !Sub "${NameBase}-private-routetable"
+          Value: !Sub "${NameBase}-private-routetable-1a"
+
+  PrivateRouteTable1c:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Sub "${NameBase}-private-routetable-1c"
 
 # ----------------------------
 # Route Table Association   
@@ -152,13 +160,13 @@ Resources:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
       SubnetId: !Ref PrivateSubnet1a
-      RouteTableId: !Ref PrivateRouteTable
+      RouteTableId: !Ref PrivateRouteTable1a
 
   PrivateRouteAssoc1c:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
       SubnetId: !Ref PrivateSubnet1c
-      RouteTableId: !Ref PrivateRouteTable
+      RouteTableId: !Ref PrivateRouteTable1c
 
 # ------------
 # Outputs
@@ -170,7 +178,7 @@ Outputs:
       Name: VPC
 
   PublicSubnet1a:
-    Value: !Ref PrivateSubnet1a
+    Value: !Ref PublicSubnet1a
     Export: 
       Name: PublicSubnet1a
 
