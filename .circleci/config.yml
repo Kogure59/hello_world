@@ -28,12 +28,12 @@ jobs:
           name: deploy CloudFormation
           command: |
               set -x
-              aws cloudformation deploy --template-file cloudformation/VPC_lec10.yml --stack-name lecture10-VPC
-              aws cloudformation deploy --template-file cloudformation/SecurityGroup_lec10.yml --stack-name lecture10-SecurityGroup --parameter-overrides MyIP=$MyIP
-              aws cloudformation deploy --template-file cloudformation/EC2_lec10.yml --stack-name lecture10-EC2 --capabilities CAPABILITY_IAM
-              aws cloudformation deploy --template-file cloudformation/ALB_lec10.yml --stack-name lecture10-ALB
-              aws cloudformation deploy --template-file cloudformation/RDS_lec10.yml --stack-name lecture10-RDS --parameter-overrides RDSUserPassword=$RDSUserPassword
-              aws cloudformation deploy --template-file cloudformation/S3_lec10.yml --stack-name lecture10-S3
+              aws cloudformation deploy --template-file cloudformation/VPC_lec10.yml --stack-name lecture10-VPC_v2
+              aws cloudformation deploy --template-file cloudformation/SecurityGroup_lec10.yml --stack-name lecture10-SecurityGroup_v2 --parameter-overrides MyIP=$MyIP
+              aws cloudformation deploy --template-file cloudformation/EC2_lec10.yml --stack-name lecture10-EC2_v2 --capabilities CAPABILITY_IAM
+              aws cloudformation deploy --template-file cloudformation/ALB_lec10.yml --stack-name lecture10-ALB_v2
+              aws cloudformation deploy --template-file cloudformation/RDS_lec10.yml --stack-name lecture10-RDS_v2 --parameter-overrides RDSUserPassword=$RDSUserPassword
+              aws cloudformation deploy --template-file cloudformation/S3_lec10.yml --stack-name lecture10-S3_v2
 
   # execute-ansible:
   #   executor: ansible-playbook/default
