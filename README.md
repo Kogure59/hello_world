@@ -111,13 +111,13 @@ Windows 環境で playbook の構文チェックやドライラン、デバッ�
 - Windows に Docker for Desktop をインストール
 - ローカルディレクトリに以下の Dockerfile を配置
     ```Dockerfile
-    FROM amazonlinux:2
-    RUN yum -y install python3 python3-pip      openssh-clients && \
-        pip3 install ansible==2.9.27 pywinrm && \
-        yum clean all && \
-        mkdir /mydata
-    ENV LANG ja_JP.UTF-8
-    CMD ["/bin/bash"]
+    FROM amazonlinux:2  # ベースイメージとして Amazon Linux 2 を使用
+    RUN yum -y install python3 python3-pip      openssh-clients && \  # Python3 、 pip 、 openssh-clients のインストール
+        pip3 install ansible==2.9.27 pywinrm && \  # pip を使って特定バージョンの Ansible と pywinrm をインストール
+        yum clean all && \  # yum キャッシュをクリア
+        mkdir /mydata  # /mydata ディレクトリを作成
+    ENV LANG ja_JP.UTF-8  # LANG 環境変数を日本語ロケールに設定
+    CMD ["/bin/bash"]  # コンテナ起動時に /bin/bash を実行
     ```
 - Dockerコンテナ接続  
   * 構築するイメージのイメージ名は `my-ansible`  

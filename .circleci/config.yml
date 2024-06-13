@@ -2,7 +2,7 @@ version: 2.1
 orbs:
   python: circleci/python@2.0.3
   aws-cli: circleci/aws-cli@4.1.1
-  # ansible-playbook: orbss/ansible-playbook@0.0.5
+  ansible-playbook: orbss/ansible-playbook@0.0.5
   # ruby: circleci/ruby@2.1.0
 
 jobs:
@@ -35,24 +35,24 @@ jobs:
               aws cloudformation deploy --template-file cloudformation/RDS_lec10.yml --stack-name lecture10-RDS --parameter-overrides RDSUserPassword=$RDSUserPassword
               aws cloudformation deploy --template-file cloudformation/S3_lec10.yml --stack-name lecture10-S3
 
-  # execute-ansible:
-  #   executor: ansible-playbook/default
-  #   steps:
-  #     - checkout
-  #     - ansible-playbook/install:
-  #         version: 2.9.27
-  #     - add_ssh_keys:
-  #         fingerprints:
-  #           - "af:0d:22:7d:d2:62:34:7d:89:fa:21:33:e0:7f:71:2c"
-  #     - run:
-  #         name: add fingerprint of host key to known hosts
-  #         command: ssh-keyscan -H $ElasticIP >> $HOME/.ssh/known_hosts  # ElasticIP に関連する SSH 公開鍵を取得し、known_hosts ファイルに追記
-  #     - run:
-  #         name: replace specific string with environment variable
-  #         command: sed -i "s/<ElasticIP>/$ElasticIP/" ./ansible/inventory  # inventory ファイルの <ElasticIP> を環境変数の値に置換
-  #     - ansible-playbook/playbook:
-  #         playbook: ansible/playbook.yml
-  #         playbook-options: "-i ansible/inventory"
+  execute-ansible:
+    executor: ansible-playbook/default
+    steps:
+      - checkout
+      - ansible-playbook/install:
+          version: 2.9.27
+      - add_ssh_keys:
+          fingerprints:
+            - "SHA256:Ca0BqzemOuczQo4+QVf62VZHFTO7RRUHcNlpmzuCfhw"
+      - run:
+          name: add fingerprint of host key to known hosts
+          command: ssh-keyscan -H $ElasticIP >> $HOME/.ssh/known_hosts  # ElasticIP に関連する SSH 公開鍵を取得し、known_hosts ファイルに追記
+      - run:
+          name: replace specific string with environment variable
+          command: sed -i "s/<ElasticIP>/$ElasticIP/" ./ansible/inventory  # inventory ファイルの <ElasticIP> を環境変数の値に置換
+      - ansible-playbook/playbook:
+          playbook: ansible/playbook.yml
+          playbook-options: "-i ansible/inventory"
 
   # execute-serverspec:
   #   executor: ruby/default
@@ -78,9 +78,9 @@ workflows:
       - execute-cfn:
           requires:
             - cfn-lint
-      # - execute-ansible:
-      #     requires:
-      #       - execute-cfn
+      - execute-ansible:
+          requires:
+            - execute-cfn
       # - execute-serverspec:
       #     requires:
       #       - execute-ansible
