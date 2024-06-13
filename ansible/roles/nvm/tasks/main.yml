@@ -25,15 +25,15 @@
 - name: Source nvm script and check version
   shell: |
     export NVM_DIR="/home/ec2-user/.nvm"
-    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  
+    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
     . /home/ec2-user/.nvm/nvm.sh && nvm --version
-  register: nvm_version_check
+  register: nvm_version
   ignore_errors: yes
-
+  
 - name: Fail if nvm is not installed correctly
   fail:
     msg: "NVM installation failed"
-  when: nvm_version_check.rc != 0
+  when: nvm_version.rc != 0
 
 - name: Check if Node.js is installed
   shell: |
