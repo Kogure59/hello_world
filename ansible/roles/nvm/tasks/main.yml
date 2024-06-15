@@ -11,11 +11,21 @@
     mode: 'u+rwx,g+rx,o+rx'
   when: not nvm_installed.stat.exists
 
+- name: Run nvm installation script
+  command: /bin/bash /home/ec2-user/install_nvm.sh
+  args:
+    creates: /home/ec2-user/.nvm
+
 - name: Ensure nvm.sh script is loaded in .bashrc
   lineinfile:
     path: /home/ec2-user/.bashrc
     line: 'export NVM_DIR="/home/ec2-user/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" '
   when: not nvm_installed.stat.exists
+
+- name: Source .bashrc to load nvm
+  shell: source /home/ec2-user/.bashrc
+  args:
+    executable: /bin/bash
 
 - name: Source nvm script and check version
   shell: |
@@ -37,7 +47,7 @@
   shell: |
     export NVM_DIR="/home/ec2-user/.nvm"
     [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-    . /home/ec2-user/.nvm/nvm.sh && nvm list | grep -q '{{ node_version }}'
+    nvm list | grep -q '{{ node_version }}'
   register: node_installed
   ignore_errors: yes
   args:
@@ -47,7 +57,7 @@
   shell: |
     export NVM_DIR="/home/ec2-user/.nvm"
     [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-    . /home/ec2-user/.nvm/nvm.sh && nvm install {{ node_version }}
+    nvm install {{ node_version }}
   when: node_installed.rc != 0
   args:
     executable: /bin/bash
