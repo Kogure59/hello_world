@@ -11,11 +11,6 @@
     mode: 'u+rwx,g+rx,o+rx'
   when: not nvm_installed.stat.exists
 
-- name: Run nvm installation script
-  command: /bin/bash /home/ec2-user/install_nvm.sh
-  args:
-    creates: /home/ec2-user/.nvm
-
 - name: Ensure nvm.sh script is loaded in .bashrc
   lineinfile:
     path: /home/ec2-user/.bashrc
@@ -24,9 +19,12 @@
 
 - name: Source nvm script and check version
   shell: |
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
     export NVM_DIR="/home/ec2-user/.nvm"
     [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-    . /home/ec2-user/.nvm/nvm.sh && nvm --version
+    nvm --version
+  args:
+    executable: /bin/bash
   register: nvm_version
   ignore_errors: yes
   
@@ -42,6 +40,8 @@
     . /home/ec2-user/.nvm/nvm.sh && nvm list | grep -q '{{ node_version }}'
   register: node_installed
   ignore_errors: yes
+  args:
+    executable: /bin/bash
 
 - name: Install Node.js
   shell: |
@@ -49,3 +49,5 @@
     [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
     . /home/ec2-user/.nvm/nvm.sh && nvm install {{ node_version }}
   when: node_installed.rc != 0
+  args:
+    executable: /bin/bash
