@@ -6,7 +6,6 @@
   register: nvm_installed
 
 - name: Install nvm
-  become: no
   get_url:
     url: https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh
     dest: /home/ec2-user/install_nvm.sh
@@ -14,13 +13,11 @@
   when: not nvm_installed.stat.exists
 
 - name: Run nvm installation script
-  become: no
   command: /bin/bash /home/ec2-user/install_nvm.sh
   args:
     creates: /home/ec2-user/.nvm
 
 - name: Ensure nvm.sh script is loaded in .bashrc
-  become: no
   lineinfile:
     path: /home/ec2-user/.bashrc
     line: 'export NVM_DIR="/home/ec2-user/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" '
