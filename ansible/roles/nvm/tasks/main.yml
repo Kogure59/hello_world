@@ -26,12 +26,6 @@
     line: 'export NVM_DIR="/home/ec2-user/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" '
   when: not nvm_installed.stat.exists
 
-- name: Source .bashrc to load nvm
-  become: no
-  shell: source /home/ec2-user/.bashrc
-  args:
-    executable: /bin/bash
-
 - name: Source nvm script and check version
   become: no
   shell: |
