@@ -1,5 +1,6 @@
 ---
 - name: Check if rbenv is installed
+  become: no
   stat:
     path: /home/ec2-user/.rbenv
   register: rbenv_installed
@@ -27,6 +28,7 @@
   when: not rbenv_installed.stat.exists
 
 - name: Check if ruby-build is installed
+  become: no
   stat:
     path: /home/ec2-user/.rbenv/plugins/ruby-build
   register: ruby_build_installed
@@ -38,9 +40,11 @@
   when: not ruby_build_installed.stat.exists
 
 - name: Install Ruby
+  become: no
   shell: /home/ec2-user/.rbenv/bin/rbenv install {{ ruby_version }}
   args:
     creates: /home/ec2-user/.rbenv/versions/{{ ruby_version }}
 
 - name: Set global Ruby version
+  become: no
   shell: /home/ec2-user/.rbenv/bin/rbenv global {{ ruby_version }}
