@@ -1,5 +1,6 @@
 ---
 - name: Check if Nginx is installed
+  become: no
   command: nginx -v
   register: nginx_check
   changed_when: no
