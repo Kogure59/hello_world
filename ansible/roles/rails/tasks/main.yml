@@ -1,11 +1,21 @@
 ---
 - name: Check if Rails is installed
   become: no
-  shell: "gem list rails | grep -q '{{ rails_version }}'"
+  shell: |
+    export PATH="$HOME/.rbenv/bin:$PATH"
+    export PATH="$HOME/.rbenv/shims:$PATH"
+    gem list rails | grep -q '{{ rails_version }}'
   register: rails_installed
   ignore_errors: yes
+  args:
+    executable: /bin/bash
 
 - name: Install Rails
   become: no
-  command: "gem install rails -v '{{ rails_version }}'"
+  shell: |
+    export PATH="$HOME/.rbenv/bin:$PATH"
+    export PATH="$HOME/.rbenv/shims:$PATH"
+    gem install rails -v '{{ rails_version }}'
   when: rails_installed is failed
+  args:
+    executable: /bin/bash
