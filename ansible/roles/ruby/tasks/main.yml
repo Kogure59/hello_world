@@ -28,7 +28,9 @@
 
 - name: Reload shell
   become: no
-  command: "exec $SHELL --login"
+  shell: source /home/ec2-user/.bash_profile  # "exec $SHELL --login"の代わり
+  args:
+    executable: /bin/bash
   when: not rbenv_installed.stat.exists
 
 - name: Check if ruby-build is installed
@@ -37,7 +39,7 @@
     path: /home/ec2-user/.rbenv/plugins/ruby-build
   register: ruby_build_installed
 
-- name: Install ruby-build
+- name: Install ruby-build  # rbenv プラグインとして ruby-build をインストール
   become: no
   git:
     repo: https://github.com/sstephenson/ruby-build.git
