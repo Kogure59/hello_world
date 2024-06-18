@@ -6,6 +6,7 @@
   ignore_errors: yes
 
 - name: Install yarn
+  become: no
   npm:
     name: yarn
     global: yes

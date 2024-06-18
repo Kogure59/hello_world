@@ -4,7 +4,7 @@
   roles:
     - { role: yum, tags: yum }
     - { role: nvm, tags: nvm }
-    # - { role: yarn, tags: yarn }
+    - { role: yarn, tags: yarn }
     # - { role: ruby, tags: ruby }
     # - { role: rails, tags: rails }
     # - { role: bundler, tags: bundler }
