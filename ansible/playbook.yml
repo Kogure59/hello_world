@@ -6,7 +6,7 @@
     - { role: nvm, tags: nvm }
     - { role: yarn, tags: yarn }
     - { role: ruby, tags: ruby }
-    # - { role: rails, tags: rails }
+    - { role: rails, tags: rails }
     # - { role: bundler, tags: bundler }
     # - { role: mysql, tags: mysql }
     # - { role: app, tags: app }

@@ -7,8 +7,7 @@
 
 - name: Install nvm
   become: no
-  shell: |
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+  shell: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
   when: not nvm_installed.stat.exists
   args:
     executable: /bin/bash

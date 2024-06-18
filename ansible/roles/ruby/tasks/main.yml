@@ -46,12 +46,28 @@
     dest: /home/ec2-user/.rbenv/plugins/ruby-build
   when: not ruby_build_installed.stat.exists
 
+- name: Check if Ruby {{ ruby_version }} is installed
+  become: no
+  shell: /home/ec2-user/.rbenv/bin/rbenv versions --bare
+  register: installed_rubies
+  args:
+    executable: /bin/bash
+
 - name: Install Ruby
   become: no
   shell: /home/ec2-user/.rbenv/bin/rbenv install {{ ruby_version }}
+  when: "'{{ ruby_version }}' not in installed_rubies.stdout_lines"
   args:
     creates: /home/ec2-user/.rbenv/versions/{{ ruby_version }}
+
+- name: Check current global Ruby version
+  become: no
+  shell: /home/ec2-user/.rbenv/bin/rbenv global
+  register: global_ruby_version
+  args:
+    executable: /bin/bash
 
 - name: Set global Ruby version
   become: no
   shell: /home/ec2-user/.rbenv/bin/rbenv global {{ ruby_version }}
+  when: global_ruby_version.stdout.strip() != '{{ ruby_version }}'
