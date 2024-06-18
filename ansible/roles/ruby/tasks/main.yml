@@ -6,24 +6,28 @@
   register: rbenv_installed
 
 - name: Install rbenv
+  become: no
   git:
     repo: https://github.com/sstephenson/rbenv.git
     dest: /home/ec2-user/.rbenv
   when: not rbenv_installed.stat.exists
 
 - name: Configure PATH for rbenv
+  become: no
   lineinfile:
     path: /home/ec2-user/.bash_profile
     line: 'export PATH="$HOME/.rbenv/bin:$PATH"'
   when: not rbenv_installed.stat.exists
 
 - name: Initialize rbenv
+  become: no
   lineinfile:
     path: /home/ec2-user/.bash_profile
     line: 'eval "$(rbenv init -)"'
   when: not rbenv_installed.stat.exists
 
 - name: Reload shell
+  become: no
   command: "exec $SHELL --login"
   when: not rbenv_installed.stat.exists
 
@@ -34,6 +38,7 @@
   register: ruby_build_installed
 
 - name: Install ruby-build
+  become: no
   git:
     repo: https://github.com/sstephenson/ruby-build.git
     dest: /home/ec2-user/.rbenv/plugins/ruby-build
