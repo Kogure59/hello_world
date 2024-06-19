@@ -16,26 +16,27 @@
   yum:
     list: mysql84-community-release-el7-1
   register: mysql_rpm_status
-  failed_when: mysql_rpm_status.stdout == 'package mysql84-community-release-el7-1 is not installed'
   ignore_errors: yes
 
 - name: Download MySQL 8.4 community release RPM
   get_url:
-    url: https://dev.mysql84-community-release-el7-1.noarch.rpm
+    url: https://dev.mysql.com/get/mysql84-community-release-el7-1.noarch.rpm
     dest: /tmp/mysql84-community-release-el7-1.noarch.rpm
-  when: mysql_rpm_status.failed
+  when: mysql_rpm_status.rc != 0
 
 - name: Install MySQL 8.4 community release RPM
   yum:
     name: /tmp/mysql84-community-release-el7-1.noarch.rpm
     state: present
-  when: mysql_rpm_status.failed
+  when: mysql_rpm_status.rc != 0
   register: mysql_rpm_installed
 
+- name: Disable MySQL 5.7 community repository
+  command: yum-config-manager --disable mysql57-community
+  when: mysql_rpm_installed.changed
+
 - name: Enable mysql84-community
-  command: |
-    yum-config-manager --disable mysql57-community
-    yum-config-manager --enable mysql84-community
+  command: yum-config-manager --enable mysql84-community
   when: mysql_rpm_installed.changed
 
 - name: install mysql-community-client
