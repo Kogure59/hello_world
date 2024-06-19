@@ -22,13 +22,13 @@
   get_url:
     url: https://dev.mysql.com/get/mysql84-community-release-el7-1.noarch.rpm
     dest: /tmp/mysql84-community-release-el7-1.noarch.rpm
-  when: mysql_rpm_status.rc != 0
+  when: mysql_rpm_status.failed
 
 - name: Install MySQL 8.4 community release RPM
   yum:
     name: /tmp/mysql84-community-release-el7-1.noarch.rpm
     state: present
-  when: mysql_rpm_status.rc != 0
+  when: mysql_rpm_status.failed
   register: mysql_rpm_installed
 
 - name: Disable MySQL 5.7 community repository
