@@ -17,9 +17,15 @@
   register: mysql_repo_check
   ignore_errors: yes
 
+- name: Download MySQL 8.0 community release RPM
+  get_url:
+    url: https://dev.mysql.com/get/mysql80-community-release-el7-9.noarch.rpm
+    dest: /tmp/mysql80-community-release-el7-9.noarch.rpm
+  when: mysql_repo_check.failed
+
 - name: Install MySQL 8.0 community release RPM
   yum:
-    name: https://dev.mysql.com/get/mysql80-community-release-el7-9.noarch.rpm
+    name: /tmp/mysql80-community-release-el7-9.noarch.rpm
     state: present
   when: mysql_repo_check.failed
   register: mysql_repo_installed
