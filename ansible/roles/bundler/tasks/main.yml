@@ -16,7 +16,3 @@
     executable: /home/ec2-user/.rbenv/shims/gem
     user_install: no
   when: bundler_check is failed
-
-- name: Display bundler_check variable
-  debug:
-    var: bundler_check
