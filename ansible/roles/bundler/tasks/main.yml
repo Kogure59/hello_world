@@ -1,11 +1,15 @@
 ---
 - name: Check if Bundler is installed
-  command: "bundler -v | grep {{ bundler_version }}"
+  become: no
+  shell: |
+    export PATH="$HOME/.rbenv/shims:$PATH"
+    bundler -v | grep {{ bundler_version }}
   register: bundler_check
   changed_when: no
   ignore_errors: yes
 
 - name: Install Bundler
+  become: no
   gem:
     name: bundler
     version: "{{ bundler_version }}"
