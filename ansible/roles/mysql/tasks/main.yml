@@ -13,7 +13,8 @@
   when: mariadb_libs_installed is succeeded
 
 - name: Check if MySQL 8.4 community release RPM is already installed
-  shell: rpm -q mysql84-community-release-el7-1
+  yum:
+    list: mysql84-community-release
   register: mysql_rpm_status
   ignore_errors: yes
 
@@ -21,22 +22,22 @@
   get_url:
     url: https://dev.mysql.com/get/mysql84-community-release-el7-1.noarch.rpm
     dest: /tmp/mysql84-community-release-el7-1.noarch.rpm
-  when: mysql_rpm_status.rc != 0
+  when: mysql_rpm_status.failed
 
 - name: Install MySQL 8.4 community release RPM
   yum:
     name: /tmp/mysql84-community-release-el7-1.noarch.rpm
     state: present
-  when: mysql_rpm_status.rc != 0
+  when: mysql_rpm_status.failed
   register: mysql_rpm_installed
 
 - name: Disable MySQL 5.7 community repository
   command: yum-config-manager --disable mysql57-community
-  when: mysql_rpm_installed.changed or mysql_rpm_status.rc == 0
+  when: mysql_rpm_installed.changed or mysql_rpm_status.succeeded
 
 - name: Enable mysql84-community
   command: yum-config-manager --enable mysql84-community
-  when: mysql_rpm_installed.changed or mysql_rpm_status.rc == 0
+  when: mysql_rpm_installed.changed or mysql_rpm_status.succeeded
 
 - name: install mysql-community-client
   yum:
