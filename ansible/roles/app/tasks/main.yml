@@ -1,4 +1,12 @@
 ---
+- name: Clone the GitHub repository
+  become: no
+  git:
+    repo: "{{ app_repo_url }}"
+    dest: "{{ app_directory }}"
+    force: yes
+  register: git_clone_action
+
 - name: Ensure the directory ownership is ec2-user
   file:
     path: "{{ app_directory }}"
@@ -6,13 +14,7 @@
     owner: ec2-user
     group: ec2-user
     recurse: yes
-
-- name: Clone the GitHub repository
-  become: no
-  git:
-    repo: "{{ app_repo_url }}"
-    dest: "{{ app_directory }}"
-    force: yes
+  when: git_clone_action.changed
 
 - name: Copy configuration files
   become: no
@@ -24,7 +26,3 @@
     - { src: 'development.rb.j2', dest: 'environments/development.rb' }
     - { src: 'storage.yml.j2', dest: 'storage.yml' }
     - { src: 'unicorn.rb.j2', dest: 'unicorn.rb' }
-
-- name: Run bin/setup
-  become: no
-  command: "{{ app_directory }}/bin/setup"

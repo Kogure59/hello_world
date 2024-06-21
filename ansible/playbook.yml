@@ -8,6 +8,6 @@
     # - { role: ruby, tags: ruby }
     # - { role: rails, tags: rails }
     # - { role: bundler, tags: bundler }
-    - { role: mysql, tags: mysql }
-    # - { role: app, tags: app }
+    - { role: app, tags: app }
+    # - { role: mysql, tags: mysql }
     # - { role: nginx, tags: nginx }   

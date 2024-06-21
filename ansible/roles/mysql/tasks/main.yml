@@ -1,16 +1,8 @@
 ---
-- name: Check if mariadb-libs is installed
-  yum:
-    name: mariadb-libs
-    state: present
-  register: mariadb_libs_installed
-  ignore_errors: yes
-
 - name: Remove mariadb-libs
   yum:
     name: mariadb-libs
     state: absent
-  when: mariadb_libs_installed is succeeded
 
 - name: Check if MySQL 8.4 community release RPM is already installed
   yum:
