@@ -5,9 +5,9 @@
     state: absent
 
 - name: Install MySQL 8.4 community release RPM
-  yum:
-    name: https://dev.mysql.com/get/mysql84-community-release-el7-1.noarch.rpm
-    state: present
+  get_url:
+    url: https://example.com/get/mysql84-community-release-el7-1.noarch.rpm
+    dest: /tmp/mysql84-community-release-el7-1.noarch.rpm
   register: mysql_rpm_installed
 
 - name: Disable MySQL 5.7 community repository
