@@ -25,11 +25,11 @@
 
 - name: Disable MySQL 5.7 community repository
   command: yum-config-manager --disable mysql57-community
-  when: mysql_rpm_installed.changed or mysql_rpm_status.succeeded
+  when: mysql_rpm_installed.changed or mysql_rpm_status.rc == 0
 
 - name: Enable mysql84-community
   command: yum-config-manager --enable mysql84-community
-  when: mysql_rpm_installed.changed or mysql_rpm_status.succeeded
+  when: mysql_rpm_installed.changed or mysql_rpm_status.rc == 0
 
 - name: install mysql-community-client
   yum:
