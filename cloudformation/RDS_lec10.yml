@@ -47,8 +47,7 @@ Resources:
       EngineVersion: 8.0.33
       LicenseModel: general-public-license
       MasterUsername: admin
-      MasterUserPassword: 
-        Fn::Sub: '{{resolve:secretsmanager:lec10-rds-jsonSecrets:SecretString:RDSUserPassword}}'
+      MasterUserPassword: "{{resolve:secretsmanager:lec10-rds-jsonSecrets:SecretString:RDSUserPassword}}"
       MultiAZ: false
       Port: 3306
       PubliclyAccessible: false
