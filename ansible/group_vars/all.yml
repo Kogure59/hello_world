@@ -1,5 +1,5 @@
 app_repo_url: "https://github.com/yuta-ushijima/raisetech-live8-sample-app.git"
-app_directory: "/var/www/raisetech-live8-sample-app"
+app_directory: "/raisetech-live8-sample-app"
 ruby_version: "3.1.2"
 bundler_version: "2.3.14"
 rails_version: "7.0.4"

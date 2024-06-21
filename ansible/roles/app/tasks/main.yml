@@ -1,28 +1,42 @@
 ---
-- name: Clone the GitHub repository
-  become: no
-  git:
-    repo: "{{ app_repo_url }}"
-    dest: "{{ app_directory }}"
-    force: yes
-  register: git_clone_action
+- name: Check if /var/www directory exists
+  stat:
+    path: /var/www
+  register: directory_stat
+
+- name: Create /var/www directory
+  file:
+    path: /var/www
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  when: not directory_stat.stat.exists
+  register: directory_created
 
 - name: Ensure the directory ownership is ec2-user
   file:
-    path: "{{ app_directory }}"
+    path: /var/www
     state: directory
     owner: ec2-user
     group: ec2-user
     recurse: yes
-  when: git_clone_action.changed
+  when: directory_created.changed 
+
+- name: Clone the GitHub repository
+  git:
+    repo: "{{ app_repo_url }}"
+    dest: "/var/www{{ app_directory }}"
+    force: yes
+  when: directory_created.changed 
 
 - name: Copy configuration files
-  become: no
   template:
     src: "{{ item.src }}"
-    dest: "{{ app_directory }}/config/{{ item.dest }}"
+    dest: "/var/www{{ app_directory }}/config/{{ item.dest }}"
   loop:
     - { src: 'database.yml.j2', dest: 'database.yml' }
     - { src: 'development.rb.j2', dest: 'environments/development.rb' }
     - { src: 'storage.yml.j2', dest: 'storage.yml' }
     - { src: 'unicorn.rb.j2', dest: 'unicorn.rb' }
+  when: directory_created.changed
