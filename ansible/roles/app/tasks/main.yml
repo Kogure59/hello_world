@@ -39,4 +39,3 @@
     - { src: 'development.rb.j2', dest: 'environments/development.rb' }
     - { src: 'storage.yml.j2', dest: 'storage.yml' }
     - { src: 'unicorn.rb.j2', dest: 'unicorn.rb' }
-  when: directory_created.changed
