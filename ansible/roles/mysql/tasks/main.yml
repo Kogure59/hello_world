@@ -13,7 +13,7 @@
 
 - name: Install MySQL 8.4 community release RPM
   command:
-    cmd: yum localinstall -y https://dev.mysql.com/downloads/repo/yum/mysql84-community-release-el7-1.noarch.rpm
+    cmd: yum localinstall -y https://dev.mysql.com/get/mysql84-community-release-el7-1.noarch.rpm
   register: mysql_rpm_installed
   when: mysql_rpm_check.rc != 0
 
@@ -24,14 +24,6 @@
 - name: Enable MySQL 8.0 community repository
   command: yum-config-manager --enable mysql80-community
   when: mysql_rpm_installed.changed 
-
-- name: Clear YUM cache
-  command: yum clean all
-  when: mysql_rpm_installed.changed
-
-- name: Refresh YUM cache
-  command: yum makecache  # リポジトリの情報を最新の状態に
-  when: mysql_rpm_installed.changed  
 
 - name: install mysql-community-client
   yum:

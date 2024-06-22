@@ -52,7 +52,7 @@ jobs:
           command: sed -i "s/<ElasticIP>/$ElasticIP/" ./ansible/inventory  # inventory ファイルの <ElasticIP> を環境変数の値に置換
       - ansible-playbook/playbook:
           playbook: ansible/playbook.yml
-          playbook-options: "-i ansible/inventory"
+          playbook-options: "-i ansible/inventory -vvv"
 
   # execute-serverspec:
   #   executor: ruby/default
