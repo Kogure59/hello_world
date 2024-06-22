@@ -25,6 +25,10 @@
   command: yum-config-manager --enable mysql80-community
   when: mysql_rpm_installed.changed 
 
+- name: Clear YUM cache
+  command: yum clean all
+  when: mysql_rpm_installed.changed
+
 - name: Refresh YUM cache
   command: yum makecache  # リポジトリの情報を最新の状態に
   when: mysql_rpm_installed.changed  
