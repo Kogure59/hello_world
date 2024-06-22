@@ -39,7 +39,7 @@
   become: no
   shell: bash -lc "bin/setup"
   args:
-    chdir: "{{ app_directory }}"
+    chdir: "/var/www{{ app_directory }}"
   when: mysql_rpm_installed.changed
 
 - name: Precompile application assets
