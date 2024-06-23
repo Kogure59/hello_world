@@ -1,0 +1,41 @@
+---
+- name: Ensure log directory is writable
+  file:
+    path: "/var/www{{ app_directory }}/log"
+    state: directory
+    mode: '0775'
+    owner: ec2-user
+    group: ec2-user
+
+- name: Ensure development.log is writable
+  file:
+    path: "/var/www{{ app_directory }}/log/development.log"
+    state: touch
+    mode: '0664'
+    owner: ec2-user
+    group: ec2-user
+
+- name: Ensure tmp/miniprofiler directory is writable
+  file:
+    path: "/var/www{{ app_directory }}/tmp/miniprofiler"
+    state: directory
+    mode: '0775'
+    owner: ec2-user
+    group: ec2-user
+
+- name: Install necessary gems
+  command: bundle install
+  args:
+    chdir: "/var/www{{ app_directory }}"
+
+- name: Run application setup script
+  become: no
+  shell: bash -lc "bin/setup"
+  args:
+    chdir: "/var/www{{ app_directory }}"
+
+- name: Precompile application assets  
+  become: no
+  shell: bash -lc "rails assets:precompile"
+  args:
+    chdir: "/var/www{{ app_directory }}"

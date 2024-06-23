@@ -34,15 +34,3 @@
   yum:
     name: mysql-community-devel
     state: present
-
-- name: Run application setup script
-  become: no
-  shell: bash -lc "bin/setup"
-  args:
-    chdir: "/var/www{{ app_directory }}"
-
-- name: Precompile application assets  
-  become: no
-  shell: bash -lc "rails assets:precompile"
-  args:
-    chdir: "/var/www{{ app_directory }}"
