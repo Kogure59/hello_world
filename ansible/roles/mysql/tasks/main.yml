@@ -40,11 +40,9 @@
   shell: bash -lc "bin/setup"
   args:
     chdir: "/var/www{{ app_directory }}"
-  when: mysql_rpm_installed.changed
 
-- name: Precompile application assets
+- name: Precompile application assets  
   become: no
   shell: bash -lc "rails assets:precompile"
   args:
-    chdir: "{{ app_directory }}"
-  when: ansible_env.rails_env == 'production'  # 本番環境の時のみ
+    chdir: "/var/www{{ app_directory }}"
