@@ -23,19 +23,31 @@
     owner: ec2-user
     group: ec2-user
 
+- name: Ensure Gemfile is readable
+  file:
+    path: "/var/www{{ app_directory }}/Gemfile"
+    owner: ec2-user
+    group: ec2-user
+    mode: '0644'
+
+- name: Ensure Gemfile.lock is readable
+  file:
+    path: "/var/www{{ app_directory }}/Gemfile.lock"
+    owner: ec2-user
+    group: ec2-user
+    mode: '0644'
+
 - name: Install necessary gems
   command: bundle install
   args:
     chdir: "/var/www{{ app_directory }}"
 
 - name: Run application setup script
-  become: no
   shell: bash -lc "bin/setup"
   args:
     chdir: "/var/www{{ app_directory }}"
 
 - name: Precompile application assets  
-  become: no
   shell: bash -lc "rails assets:precompile"
   args:
     chdir: "/var/www{{ app_directory }}"

@@ -9,6 +9,6 @@
     # - { role: rails, tags: rails }
     # - { role: bundler, tags: bundler }
     # - { role: app, tags: app }
-    - { role: mysql, tags: mysql }
+    # - { role: mysql, tags: mysql }
     - { role: setup, tags: setup }
     # - { role: nginx, tags: nginx }   
