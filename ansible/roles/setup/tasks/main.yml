@@ -24,7 +24,7 @@
     group: ec2-user
 
 - name: Install necessary gems
-  command: bundle install
+  shell: bash -lc "bundle install"
   args:
     chdir: "/var/www{{ app_directory }}"
 
