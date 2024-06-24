@@ -25,7 +25,6 @@
 
 - name: Install necessary gems
   command: bundle install
-  args:
     chdir: "/var/www{{ app_directory }}"
 
 - name: Run application setup script
