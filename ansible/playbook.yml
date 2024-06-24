@@ -5,10 +5,10 @@
     # - { role: yum, tags: yum }
     # - { role: nvm, tags: nvm }
     # - { role: yarn, tags: yarn }
-    # - { role: ruby, tags: ruby }
-    # - { role: rails, tags: rails }
+    - { role: ruby, tags: ruby }
+    - { role: rails, tags: rails }
     - { role: bundler, tags: bundler }
     - { role: app, tags: app }
-    # - { role: mysql, tags: mysql }
+    - { role: mysql, tags: mysql }
     - { role: setup, tags: setup }
     # - { role: nginx, tags: nginx }   
