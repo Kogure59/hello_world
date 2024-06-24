@@ -37,11 +37,19 @@
     group: ec2-user
     mode: '0644'
 
+- name: Ensure Bundler path is in ec2-user's PATH
+  become_user: ec2-user
+  lineinfile:
+    path: /home/ec2-user/.bash_profile
+    regexp: '^(export PATH=.*)'
+    line: 'export PATH=$PATH:/home/ec2-user/.gem/ruby/3.2.3/bin'
+    create: yes
+
 - name: Install necessary gems
+  become_user: ec2-user
   command: bundle install
   args:
     chdir: "/var/www{{ app_directory }}"
-  become_user: ec2-user
 
 - name: Run application setup script
   shell: bash -lc "bin/setup"
