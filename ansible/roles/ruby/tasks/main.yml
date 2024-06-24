@@ -54,8 +54,8 @@
   become: no
   shell: /home/ec2-user/.rbenv/bin/rbenv install {{ ruby_version }}
   when: ruby_version not in installed_rubies.stdout_lines
-  args:
-    creates: /home/ec2-user/.rbenv/versions/{{ ruby_version }}
+  # args:
+  #   creates: /home/ec2-user/.rbenv/versions/{{ ruby_version }}
 
 - name: Check current global Ruby version
   become: no
