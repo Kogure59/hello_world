@@ -43,28 +43,24 @@
     dest: /home/ec2-user/.rbenv/plugins/ruby-build
   when: not ruby_build_installed.stat.exists
 
-- name: Check if Ruby {{ ruby_version }} is installed
+- name: Check for specified Ruby version
   become: no
-  shell: /home/ec2-user/.rbenv/bin/rbenv versions --bare
-  register: installed_rubies
-  args:
-    executable: /bin/bash
+  shell: bash -lc "rbenv version | grep {{ ruby_version }}"
+  register: ruby_version_check
+  changed_when: no
+  ignore_errors: yes
+    
+- name: Install specified Ruby version using rbenv
+  become: no
+  shell: bash -lc "rbenv install {{ ruby_version }}"
+  when: ruby_version_check is failed
 
-- name: Install Ruby
+- name: Set the default Ruby version with rbenv
   become: no
-  shell: /home/ec2-user/.rbenv/bin/rbenv install {{ ruby_version }}
-  when: ruby_version not in installed_rubies.stdout_lines
-  # args:
-  #   creates: /home/ec2-user/.rbenv/versions/{{ ruby_version }}
+  shell: bash -lc "rbenv global {{ ruby_version }}"
+  when: ruby_version_check is failed
 
-- name: Check current global Ruby version
+- name: Update rbenv configuration
   become: no
-  shell: /home/ec2-user/.rbenv/bin/rbenv global
-  register: global_ruby_version
-  args:
-    executable: /bin/bash
-
-- name: Set global Ruby version
-  become: no
-  shell: /home/ec2-user/.rbenv/bin/rbenv global {{ ruby_version }}
-  when: global_ruby_version.stdout.strip() != ruby_version
+  shell: bash -lc "rbenv rehash"
+  when: ruby_version_check is failed

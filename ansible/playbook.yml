@@ -2,13 +2,13 @@
 - hosts: target_node
   become: yes
   roles:
-    # - { role: yum, tags: yum }
-    # - { role: nvm, tags: nvm }
-    # - { role: yarn, tags: yarn }
-    - { role: ruby, tags: ruby }
-    # - { role: rails, tags: rails }
-    # - { role: bundler, tags: bundler }
-    # - { role: app, tags: app }
-    # - { role: mysql, tags: mysql }
-    # - { role: setup, tags: setup }
-    # - { role: nginx, tags: nginx }   
+    # - role: yum
+    # - role: nvm
+    # - role: yarn
+    - role: ruby
+    # - role: rails
+    # - role: bundler
+    # - role: app
+    # - role: mysql
+    # - role: setup
+    # - role: nginx
