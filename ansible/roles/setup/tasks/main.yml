@@ -33,21 +33,34 @@
     executable: /bin/bash
 
 - name: Fix permissions for /var/www{{ app_directory }}/tmp
-  become: yes
   file:
     path: "/var/www{{ app_directory }}/tmp"
     owner: ec2-user
     group: ec2-user
     mode: '0755'
 
+- name: Fix permissions for /var/www/raisetech-live8-sample-app/db/schema.rb
+  file:
+    path: /var/www/raisetech-live8-sample-app/db/schema.rb
+    owner: ec2-user
+    group: ec2-user
+    mode: '0644'
+
 - name: Run application setup script
-  become: no
-  shell: bash -lc "bin/setup"
+  shell: |
+    export PATH="$HOME/.rbenv/bin:$PATH"
+    eval "$(rbenv init -)"
+    source ~/.bash_profile
+    bin/setup
   args:
     chdir: "/var/www{{ app_directory }}"
+  become_user: ec2-user
 
 - name: Precompile application assets  
-  become: no
-  shell: bash -lc "rails assets:precompile"
+  shell: |
+    export PATH="$HOME/.rbenv/bin:$PATH"
+    eval "$(rbenv init -)"
+    export PATH="$HOME/.rbenv/shims:$PATH"
+    rails assets:precompile
   args:
     chdir: "/var/www{{ app_directory }}"
