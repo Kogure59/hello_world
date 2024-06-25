@@ -17,7 +17,7 @@
     enabled: yes
 
 - name: Start Unicorn if Nginx is running
-  sell: bash -lc "bundle exec unicorn_rails -c config/unicorn.rb -E development -D"
+  shell: bash -lc "bundle exec unicorn_rails -c config/unicorn.rb -E development -D"
   args:
     chdir: "/var/www{{ app_directory }}"
   when: nginx_check.rc == 0
