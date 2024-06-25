@@ -1,21 +1,22 @@
 ---
-- name: Check if Rails is installed
-  become: no
-  shell: |
-    export PATH="$HOME/.rbenv/bin:$PATH"
-    export PATH="$HOME/.rbenv/shims:$PATH"
-    gem list rails | grep -q '{{ rails_version }}'
-  register: rails_installed
-  ignore_errors: yes
+- name: Add rbenv shims to PATH
+  lineinfile:
+    path: /home/ec2-user/.bash_profile
+    line: 'export PATH="$HOME/.rbenv/shims:$PATH"'
+    state: present
+
+- name: Reload shell
+  shell: source /home/ec2-user/.bash_profile
   args:
     executable: /bin/bash
 
+- name: Check if Rails is installed
+  become: no
+  shell: bash -lc "gem list rails | grep -q '{{ rails_version }}'"
+  register: rails_installed
+  ignore_errors: yes
+
 - name: Install Rails
   become: no
-  shell: |
-    export PATH="$HOME/.rbenv/bin:$PATH"
-    export PATH="$HOME/.rbenv/shims:$PATH"
-    gem install rails -v '{{ rails_version }}'
+  shell: bash -lc "gem install rails -v '{{ rails_version }}'"
   when: rails_installed is failed
-  args:
-    executable: /bin/bash
