@@ -50,17 +50,10 @@
   changed_when: no
   ignore_errors: yes
     
-- name: Install specified Ruby version using rbenv
+- name: Install and set Ruby v{{ ruby_version }} as default if not already
   become: no
-  shell: bash -lc "rbenv install {{ ruby_version }}"
-  when: ruby_version_check is failed
-
-- name: Set the default Ruby version with rbenv
-  become: no
-  shell: bash -lc "rbenv global {{ ruby_version }}"
-  when: ruby_version_check is failed
-
-- name: Update rbenv configuration
-  become: no
-  shell: bash -lc "rbenv rehash"
-  when: ruby_version_check is failed
+  shell: |
+    bash -lc "rbenv install {{ ruby_version }}"
+    bash -lc "rbenv global {{ ruby_version }}"
+  args:
+    creates: /home/ec2-user/.rbenv/versions/{{ ruby_version }}
