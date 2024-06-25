@@ -20,3 +20,12 @@
   become: no
   shell: bash -lc "gem install rails -v '{{ rails_version }}'"
   when: rails_installed is failed
+
+- name: Check Rails installation again
+  shell: bash -lc "gem list rails | grep '{{ rails_version }}'"
+  register: rails_installed_again
+  ignore_errors: yes
+
+- name: Debug Rails installation result
+  debug:
+    var: rails_installed_again
