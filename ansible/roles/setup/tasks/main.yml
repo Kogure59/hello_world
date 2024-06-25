@@ -1,6 +1,5 @@
 ---
 - name: Ensure log directory is writable
-  become: no
   file:
     path: "/var/www{{ app_directory }}/log"
     state: directory
@@ -9,7 +8,6 @@
     group: ec2-user
 
 - name: Ensure development.log is writable
-  become: no
   file:
     path: "/var/www{{ app_directory }}/log/development.log"
     state: touch
@@ -18,7 +16,6 @@
     group: ec2-user
 
 - name: Ensure tmp/miniprofiler directory is writable
-  become: no
   file:
     path: "/var/www{{ app_directory }}/tmp/miniprofiler"
     state: directory
@@ -34,6 +31,14 @@
   args:
     chdir: "/var/www{{ app_directory }}"
     executable: /bin/bash
+
+- name: Fix permissions for /var/www{{ app_directory }}/tmp
+  become: yes
+  file:
+    path: "/var/www{{ app_directory }}/tmp"
+    owner: ec2-user
+    group: ec2-user
+    mode: '0755'
 
 - name: Run application setup script
   become: no
