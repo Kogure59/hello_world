@@ -58,11 +58,9 @@
   become_user: ec2-user
 
 - name: Update caniuse-lite database  
-  command: npx update-browserslist-db@latest
+  command: /usr/local/bin/npx update-browserslist-db@latest
   args:
     chdir: "/var/www{{ app_directory }}"
-  environment:
-    PATH: "{{ ansible_env.PATH }}:/usr/local/bin"
   become_user: root
 
 - name: Set permissions for application.css
