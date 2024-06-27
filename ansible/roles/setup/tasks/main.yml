@@ -61,7 +61,7 @@
   command: ~/.nvm/versions/node/v17.9.1/bin/npx update-browserslist-db@latest
   args:
     chdir: "/var/www{{ app_directory }}"
-  become_user: root
+  become_user: ec2-user
 
 - name: Set permissions for application.css
   file:
