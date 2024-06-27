@@ -62,6 +62,17 @@
   args:
     chdir: "/var/www{{ app_directory }}"
   become_user: ec2-user
+  async: 1200  # 最大20分間実行可能
+  poll: 0  # 非同期タスクとして実行
+  register: update_task
+
+- name: Wait for caniuse-lite database update to finish
+  async_status:
+    jid: "{{ update_task.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 30
+  delay: 60
 
 - name: Set permissions for application.css
   file:

@@ -3,12 +3,12 @@
   become: yes
   roles:
     - role: yum
-    - role: nvm
-    - role: yarn
+    # - role: nvm
+    # - role: yarn
     - role: ruby
     - role: rails
-    - role: bundler
-    - role: app
-    - role: mysql
+    # - role: bundler
+    # - role: app
+    # - role: mysql
     - role: setup
     - role: nginx
