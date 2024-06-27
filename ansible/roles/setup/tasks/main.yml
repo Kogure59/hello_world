@@ -58,7 +58,7 @@
   become_user: ec2-user
 
 - name: Update caniuse-lite database  
-  command: /usr/local/bin/npx update-browserslist-db@latest
+  command: ~/.nvm/versions/node/v17.9.1/bin/npx update-browserslist-db@latest
   args:
     chdir: "/var/www{{ app_directory }}"
   become_user: root
