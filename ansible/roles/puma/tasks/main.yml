@@ -1,0 +1,27 @@
+---
+- name: Copy puma.service to systemd directory
+  copy:
+    src: puma.service.sample
+    dest: /etc/systemd/system/puma.service
+  notify: 
+    - Reload systemd
+
+- name: Ensure puma directory exists
+  file:
+    path: "/var/www{{ app_directory }}/tmp/sockets"
+    state: directory
+    owner: ec2-user
+    group: ec2-user
+
+- name: Create puma configuration file
+  template:
+    src: puma.rb.j2
+    dest: "/var/www{{ app_directory }}/config/puma.rb"
+    owner: ec2-user
+    group: ec2-user
+
+- name: Start and enable puma service
+  systemd:
+    name: puma
+    state: started
+    enabled: yes

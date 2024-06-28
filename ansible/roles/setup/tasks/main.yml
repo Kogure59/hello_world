@@ -3,7 +3,7 @@
   file:
     path: "/var/www{{ app_directory }}/log"
     state: directory
-    mode: '0775'
+    mode: 0775
     owner: ec2-user
     group: ec2-user
 
@@ -11,7 +11,7 @@
   file:
     path: "/var/www{{ app_directory }}/log/development.log"
     state: touch
-    mode: '0664'
+    mode: 0664
     owner: ec2-user
     group: ec2-user
 
@@ -19,7 +19,7 @@
   file:
     path: "/var/www{{ app_directory }}/tmp/miniprofiler"
     state: directory
-    mode: '0775'
+    mode: 0775
     owner: ec2-user
     group: ec2-user
 
@@ -37,14 +37,14 @@
     path: "/var/www{{ app_directory }}/tmp"
     owner: ec2-user
     group: ec2-user
-    mode: '0755'
+    mode: 0755
 
 - name: Fix permissions for /var/www/raisetech-live8-sample-app/db/schema.rb
   file:
     path: /var/www/raisetech-live8-sample-app/db/schema.rb
     owner: ec2-user
     group: ec2-user
-    mode: '0644'
+    mode: 0644
 
 - name: Run application setup script 
   shell: |
@@ -56,6 +56,13 @@
     chdir: "/var/www{{ app_directory }}"
     executable: /bin/bash
   become_user: ec2-user
+
+- name: Ensure correct permissions on yarn.lock
+  file:
+    path: "/var/www{{ app_directory }}/yarn.lock"
+    owner: ec2-user
+    group: ec2-user
+    mode: 0644
 
 - name: Update caniuse-lite database  
   command: /home/ec2-user/.nvm/versions/node/v17.9.1/bin/npx update-browserslist-db@latest
@@ -80,7 +87,7 @@
     path: "/var/www{{ app_directory }}/app/assets/builds/application.css"
     owner: ec2-user
     group: ec2-user
-    mode: '0664'
+    mode: 0664
 
 - name: Precompile application assets  
   shell: |

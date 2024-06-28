@@ -1,5 +1,5 @@
-upstream unicorn {  # Unicornと連携させるための設定
-    server unix:/var/www/raisetech-live8-sample-app/unicorn.sock;  
+upstream unicorn {  # Pumaと連携させるための設定
+    server unix:/var/www/raisetech-live8-sample-app//tmp/sockets/puma.sock;  
 }
 
 server {  # サーバの設定
@@ -13,12 +13,12 @@ server {  # サーバの設定
     client_max_body_size 100m;  # クライアントからアップロードされてくるファイルの容量の上限を100メガに設定。
     error_page 404 /404.html;
     error_page 500 502 503 504 /500.html;
-    try_files $uri/index.html $uri @unicorn;  # アクセスされたURLに応じて、ファイルを提供またはUnicornサーバに処理を移譲。
+    try_files $uri/index.html $uri @puma;  # アクセスされたURLに応じて、ファイルを提供またはPumaサーバに処理を移譲。
 
-    location @unicorn {  # Unicornサーバへのプロキシの設定
+    location @puma {  # Unicornサーバへのプロキシの設定
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header Host $http_host;
-        proxy_pass http://unicorn;  
+        proxy_pass http://puma;  
     }
 }

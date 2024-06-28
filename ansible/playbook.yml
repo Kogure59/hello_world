@@ -11,4 +11,5 @@
     # - role: app
     # - role: mysql
     - role: setup
+    - role: puma
     - role: nginx

@@ -16,14 +16,11 @@
     state: started
     enabled: yes
 
-- name: Start Unicorn if Nginx is running
-  shell: bash -lc "bundle exec unicorn_rails -c config/unicorn.rb -E development -D"
-  args:
-    chdir: "/var/www{{ app_directory }}"
-  when: nginx_check.rc == 0
-
-- name: Copy Rails configuration file for Nginx
+- name: Copy Nginx configuration file for Rails app
   template:
     src: rails.conf.j2
     dest: /etc/nginx/conf.d/rails.conf
-  notify: restart nginx
+    owner: root
+    group: root
+    mode: 0644
+  notify: Restart nginx
