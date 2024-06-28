@@ -8,7 +8,7 @@
     - role: ruby
     - role: rails
     # - role: bundler
-    # - role: app
+    - role: app
     # - role: mysql
     - role: setup
     - role: puma
