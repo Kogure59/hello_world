@@ -1,14 +1,14 @@
 ---
 - name: Check if Nginx is installed
   become: no
-  shell: bash -lc "nginx -v"
+  command: nginx -v
   register: nginx_check
-  changed_when: no
+  changed_when: false
   ignore_errors: yes
 
 - name: Install Nginx if not already installed
-  shell: bash -lc "amazon-linux-extras install -y nginx1"
-  when: nginx_check.rc != 0
+  command: amazon-linux-extras install -y nginx1
+  when: nginx_check.failed
 
 - name: Ensure Nginx is running and enabled at boot
   service:
@@ -24,7 +24,14 @@
     group: root
     mode: 0644
 
-- name: Restart nginx
+- name: Check Nginx configuration
+  command: nginx -t
+  register: nginx_config_check
+  changed_when: false
+  ignore_errors: yes
+
+- name: Reload nginx
   service:
     name: nginx
-    state: restarted
+    state: reloaded
+  when: nginx_config_check.rc == 0
