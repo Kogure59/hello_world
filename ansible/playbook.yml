@@ -12,4 +12,4 @@
     # - role: mysql
     - role: setup
     - role: puma
-    # - role: nginx
+    - role: nginx
