@@ -11,10 +11,10 @@ After=network.target
 # as of Puma 5.1 or later.
 # On earlier versions of Puma or JRuby, change this to `Type=simple` and remove
 # the `WatchdogSec` line.
-Type=notify
+Type=simple
 
 # If your Puma process locks up, systemd's watchdog will restart it within seconds.
-WatchdogSec=60
+# WatchdogSec=60
 
 # Preferably configure a non-privileged user
 User=ec2-user
@@ -22,10 +22,10 @@ User=ec2-user
 # The path to the your application code root directory.
 # Also replace the "<YOUR_APP_PATH>" place holders below with this path.
 # Example /home/username/myapp
-WorkingDirectory=/home/ec2-user/raisetech-live8-sample-app
+WorkingDirectory=/home/ec2-user/var/www/raisetech-live8-sample-app
 
 # Helpful for debugging socket activation, etc.
-Environment=PUMA_DEBUG=1
+# Environment=PUMA_DEBUG=1  # Puma の動作に問題があり、詳細なデバッグ情報が必要な場合
 
 # SystemD will not run puma even if it is in your path. You must specify
 # an absolute URL to puma. For example /usr/local/bin/puma
@@ -38,7 +38,7 @@ ExecStart=/bin/bash -lc 'bundle exec puma -C config/puma.rb'
 
 # Enabled systemd reload
 # refs: https://zenn.dev/trysmr/articles/65a6db4deffdbf
-ExecReload=/bin/kill -USR2 $MAINPID
+# ExecReload=/bin/kill -USR2 $MAINPID  # Puma の設定変更やコードのデプロイ時に、サービスを停止せずに再起動したい場合
 
 # Variant: Use `bundle exec --keep-file-descriptors puma` instead of binstub
 # Variant: Specify directives inline.
