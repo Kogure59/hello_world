@@ -18,11 +18,9 @@
     owner: ec2-user
     group: ec2-user
 
-- name: Reload systemd manually
-  command: systemctl daemon-reload
-
 - name: Start and enable puma service
   systemd:
-    name: puma
+    name: puma.service
     state: started
     enabled: yes
+    daemon_reload: yes
