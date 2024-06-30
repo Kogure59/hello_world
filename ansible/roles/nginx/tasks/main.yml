@@ -17,7 +17,7 @@
     owner: root
     group: root
     mode: 0644
-  notify: Reload nginx
+  notify: Restart nginx
 
 - name: Ensure Nginx is running and enabled at boot
   systemd:
