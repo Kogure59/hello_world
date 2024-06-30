@@ -10,12 +10,6 @@
   command: amazon-linux-extras install -y nginx1
   when: nginx_check.failed
 
-- name: Ensure Nginx is running and enabled at boot
-  systemd:
-    name: nginx
-    state: started
-    enabled: yes
-
 - name: Copy Nginx configuration file for Rails app
   template:
     src: rails.conf.j2
@@ -23,15 +17,10 @@
     owner: root
     group: root
     mode: 0644
+  notify: Reload nginx
 
-- name: Check Nginx configuration
-  command: nginx -t
-  register: nginx_config_check
-  changed_when: false
-  ignore_errors: yes
-
-- name: Reload nginx
+- name: Ensure Nginx is running and enabled at boot
   systemd:
     name: nginx
-    state: reloaded
-  when: nginx_config_check.rc == 0 
+    state: started
+    enabled: yes

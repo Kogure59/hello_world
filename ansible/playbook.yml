@@ -5,8 +5,8 @@
     - role: yum
     # - role: nvm
     # - role: yarn
-    - role: ruby
-    - role: rails
+    # - role: ruby
+    # - role: rails
     # - role: bundler
     # - role: app
     # - role: mysql
