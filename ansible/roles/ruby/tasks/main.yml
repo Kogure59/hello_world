@@ -24,12 +24,6 @@
     path: /home/ec2-user/.bash_profile
     line: 'eval "$(rbenv init -)"'
 
-- name: Reload shell
-  become: no
-  shell: source /home/ec2-user/.bash_profile  # "exec $SHELL --login"の代わり
-  args:
-    executable: /bin/bash
-
 - name: Check if ruby-build is installed
   become: no
   stat:

@@ -19,12 +19,6 @@
     executable: /bin/bash
   become_user: ec2-user
 
-- name: Update caniuse-lite database  
-  command: /home/ec2-user/.nvm/versions/node/v17.9.1/bin/npx update-browserslist-db@latest
-  args:
-    chdir: "/var/www{{ app_directory }}"
-  become_user: ec2-user
-
 - name: Precompile application assets  
   shell: |
     export PATH="$HOME/.rbenv/bin:$PATH"

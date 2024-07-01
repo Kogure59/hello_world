@@ -6,12 +6,6 @@
     line: 'export PATH="$HOME/.rbenv/shims:$PATH"'
     state: present
 
-- name: Reload shell
-  become: no
-  shell: source /home/ec2-user/.bash_profile
-  args:
-    executable: /bin/bash
-
 - name: Ensure Ruby environment is loaded
   become: no
   shell: source /home/ec2-user/.bash_profile && rbenv rehash

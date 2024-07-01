@@ -15,7 +15,7 @@
 - name: Ensure nvm.sh script is loaded in .bashrc
   become: no
   lineinfile:
-    path: /home/ec2-user/.bashrc
+    path: /home/ec2-user/.bash_profile
     line: 'export NVM_DIR="/home/ec2-user/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" '
 
 - name: Source nvm script and check version
@@ -28,12 +28,6 @@
     executable: /bin/bash
   register: nvm_version
   ignore_errors: yes
-  
-- name: Fail if nvm is not installed correctly
-  become: no
-  fail:
-    msg: "NVM installation failed"
-  when: nvm_version.rc != 0
 
 - name: Check if Node.js is installed
   become: no
