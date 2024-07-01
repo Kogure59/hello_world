@@ -16,10 +16,8 @@
   become: no
   lineinfile:
     path: /home/ec2-user/.bash_profile
-    line: |
-      export NVM_DIR="/home/ec2-user/.nvm"
-      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-      [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+    line: export NVM_DIR="/home/ec2-user/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+    state: present
 
 - name: Check if Node.js is installed
   become: no
