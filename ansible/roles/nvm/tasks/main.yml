@@ -12,22 +12,14 @@
   args:
     executable: /bin/bash
 
-- name: Ensure nvm.sh script is loaded in .bashrc
+- name: Ensure nvm.sh script is loaded in .bash_profile
   become: no
   lineinfile:
     path: /home/ec2-user/.bash_profile
-    line: 'export NVM_DIR="/home/ec2-user/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" '
-
-- name: Source nvm script and check version
-  become: no
-  shell: |
-    export NVM_DIR="/home/ec2-user/.nvm"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-    nvm --version
-  args:
-    executable: /bin/bash
-  register: nvm_version
-  ignore_errors: yes
+    line: |
+      export NVM_DIR="/home/ec2-user/.nvm"
+      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+      [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
 - name: Check if Node.js is installed
   become: no
@@ -46,6 +38,8 @@
     export NVM_DIR="/home/ec2-user/.nvm"
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
     nvm install {{ node_version }}
+    nvm use {{ node_version }}
+    nvm alias default {{ node_version }}
   when: node_installed.rc != 0
   args:
     executable: /bin/bash
