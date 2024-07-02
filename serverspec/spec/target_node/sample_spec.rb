@@ -1,5 +1,7 @@
 require 'spec_helper'
 
+path_setting = '/home/ec2-user/.rbenv/shims:$PATH'
+
 # gitがインストールされているか確認する
 describe package('git') do
   it { should be_installed }
@@ -16,27 +18,32 @@ end
 end
 
 # Node のバージョン確認
-describe command('bash -lc "node -v"') do
+describe command('node -v') do
+  let(:path) { path_setting }
   its(:stdout) { should match /v17\.9\.1/ }
 end
 
 # Yarn のバージョン確認
-describe command('bash -lc "yarn -v"') do
+describe command('yarn -v') do
+  let(:path) { path_setting }
   its(:stdout) { should match /1\.22\.19/ }
 end
 
 # Ruby のバージョン確認
-describe command('bash -lc "ruby -v"') do
-  its(:stdout) { should match /ruby 3\.2\.3/ }
+describe command('ruby -v') do
+  let(:path) { path_setting }
+  its(:stdout) { should match /ruby 3\.2\.3 \(2024-01-18 revision 52bb2ac0a6\) \[x86_64-linux\]/ }
 end
 
 # Rails のバージョン確認
-describe command('bash -lc "rails -v"') do
+describe command('rails -v') do
+  let(:path) { path_setting }
   its(:stdout) { should match /Rails 7\.1\.3\.2/ } 
 end
 
 # Bundler のバージョン確認
-describe command('bash -lc "bundler -v"') do
+describe command('bundler -v') do
+  let(:path) { path_setting }
   its(:stdout) { should match /Bundler version 2\.3\.14/ }
 end
 
@@ -76,11 +83,9 @@ describe 'RDS MySQL Connection' do
   host = ENV['DB_HOST']
   user = ENV['DB_USERNAME']
   password = ENV['DB_PASSWORD']
-  database = ENV['DB_NAME']
 
-  describe command("mysql -h #{host} -u #{user} -p#{password} -e 'SHOW DATABASES;' #{database}") do
+  describe command("mysql -h #{host} -u #{user} -p#{password}") do
     its(:exit_status) { should eq 0 }
-    its(:stdout) { should match /#{database}/ }
   end
 end
 

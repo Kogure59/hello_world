@@ -68,7 +68,6 @@ jobs:
       - run:
           name: execute serverspec
           command: |
-            source ~/.bash_profile
             cd serverspec
             bundle exec rake spec
 
