@@ -66,13 +66,9 @@ jobs:
       - ruby/install-deps:
           app-dir: serverspec
       - run:
-          name: Load .bash_profile
-          command: |
-            source ~/.bash_profile
-            rbenv rehash
-      - run:
           name: execute serverspec
           command: |
+            source ~/.bash_profile
             cd serverspec
             bundle exec rake spec
 
