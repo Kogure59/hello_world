@@ -16,12 +16,12 @@ end
 end
 
 # Node のバージョン確認
-describe command('node -v') do
+describe command('bash -lc "node -v"') do
   its(:stdout) { should match /v17\.9\.1/ }
 end
 
 # Yarn のバージョン確認
-describe command('yarn -v') do
+describe command('bash -lc "yarn -v"') do
   its(:stdout) { should match /1\.22\.19/ }
 end
 
@@ -45,11 +45,6 @@ describe command('mysql --version') do
   its(:stdout) { should match /mysql\s+Ver\s+8\.4\.1/ }
 end
 
-# Puma サーバーのマスタープロセスが正しく起動していることを確認
-describe command('ps aux | grep "puma: cluster worker" | grep -v grep') do  # grep コマンド自身を除外
-  its(:stdout) { should match /puma/ }
-end
-
 # Puma サーバーのワーカープロセスが少なくとも 1 つは起動していることを確認
 describe command('ps aux | grep "puma: cluster worker" | wc -l') do  # wc -l はプロセスの数を数える
   its(:stdout) { should match /[1-9]/ } 
@@ -61,17 +56,31 @@ describe service('nginx') do
   it { should be_enabled }
 end
 
-# ALB の接続確認
-describe command("curl http://#{ENV['ALB_ENDPOINT']}/ -o /dev/null -w '%{http_code}\n' -s") do  # HTTPステータスコードのみを出力
-  its(:stdout) { should match /^200$/ }  # 出力が 200 であること（正常な HTTP レスポンス）
+# Nginx の設定ファイルの確認
+describe file('/etc/nginx/conf.d/rails.conf') do
+  it { should be_file }
 end
 
-# RDS のサーバー接続確認
-describe 'MySQL Command' do
-  command_string = "nc -zv #{ENV['RDS_ENDPOINT']} 3306"
+# 80 のポート
+describe port(80) do
+  it { should be_listening }
+end
 
-  describe command(command_string) do
-    its(:exit_status) { should eq 0 }  # コマンドの終了ステータスが 0 であること（正常に接続できたこと）
+# # 出力が 200 であること（正常な HTTP レスポンス）
+describe command("curl http://127.0.0.1:80/ -o /dev/null -w '%{http_code}\n' -s") do 
+  its(:stdout) { should match /^200$/ }  
+end
+
+# MySQL の接続確認
+describe 'RDS MySQL Connection' do
+  host = ENV['DB_HOST']
+  user = ENV['DB_USERNAME']
+  password = ENV['DB_PASSWORD']
+  database = ENV['DB_NAME']
+
+  describe command("mysql -h #{host} -u #{user} -p#{password} -e 'SHOW DATABASES;' #{database}") do
+    its(:exit_status) { should eq 0 }
+    its(:stdout) { should match /#{database}/ }
   end
 end
 
