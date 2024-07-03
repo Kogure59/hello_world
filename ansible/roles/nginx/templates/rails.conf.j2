@@ -9,7 +9,7 @@ server {  # サーバの設定
     access_log  /var/log/nginx/access.log;
     error_log   /var/log/nginx/error.log;
 
-    root /var/www/raisetech-live8-sample-app/public;  # 接続が来た際のrootディレクトリ
+    root /home/ec2-user/var/www/raisetech-live8-sample-app/public;  # 接続が来た際のrootディレクトリ
     
     client_max_body_size 100m;  # クライアントからアップロードされてくるファイルの容量の上限を100メガに設定。
     error_page 404 /404.html;
