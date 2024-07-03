@@ -1,6 +1,8 @@
 require 'spec_helper'
 
-path_setting = '/home/ec2-user/.rbenv/shims:$PATH'
+RBENV_INIT = 'eval "$(rbenv init -)"'
+RBENV_PATH = '/home/ec2-user/.rbenv/bin:/home/ec2-user/.rbenv/shims:$PATH'
+NVM_DIR = '/home/ec2-user/.nvm' && [ -s '$NVM_DIR/nvm.sh' ] && \. '$NVM_DIR/nvm.sh'
 
 # gitがインストールされているか確認する
 describe package('git') do
@@ -18,32 +20,30 @@ end
 end
 
 # Node のバージョン確認
-describe command('node -v') do
-  let(:path) { path_setting }
+describe command('bash -lc "nvm use 17.9.1 && node -v"') do
   its(:stdout) { should match /v17\.9\.1/ }
 end
 
 # Yarn のバージョン確認
-describe command('yarn -v') do
-  let(:path) { path_setting }
+describe command('bash -lc "nvm use 17.9.1 && yarn -v"') do
   its(:stdout) { should match /1\.22\.19/ }
 end
 
 # Ruby のバージョン確認
-describe command('ruby -v') do
-  let(:path) { path_setting }
+describe command('bash -lc "ruby -v"') do
+  let(:path) { "#{RBENV_PATH}" }
   its(:stdout) { should match /ruby 3\.2\.3 \(2024-01-18 revision 52bb2ac0a6\) \[x86_64-linux\]/ }
 end
 
 # Rails のバージョン確認
-describe command('rails -v') do
-  let(:path) { path_setting }
+describe command('bash -lc "rails -v"') do
+  let(:path) { "#{RBENV_PATH}" }
   its(:stdout) { should match /Rails 7\.1\.3\.2/ } 
 end
 
 # Bundler のバージョン確認
-describe command('bundler -v') do
-  let(:path) { path_setting }
+describe command('bash -lc "bundler -v"') do
+  let(:path) { "#{RBENV_PATH}" }
   its(:stdout) { should match /Bundler version 2\.3\.14/ }
 end
 
@@ -73,7 +73,7 @@ describe port(80) do
   it { should be_listening }
 end
 
-# # 出力が 200 であること（正常な HTTP レスポンス）
+# 出力が 200 であること（正常な HTTP レスポンス）
 describe command("curl http://127.0.0.1:80/ -o /dev/null -w '%{http_code}\n' -s") do 
   its(:stdout) { should match /^200$/ }  
 end
@@ -84,7 +84,7 @@ describe 'RDS MySQL Connection' do
   user = ENV['DB_USERNAME']
   password = ENV['DB_PASSWORD']
 
-  describe command("mysql -h #{host} -u #{user} -p#{password}") do
+  describe command("mysql -h #{host} -u #{user} -p#{password} -e 'SHOW DATABASES;'") do
     its(:exit_status) { should eq 0 }
   end
 end
