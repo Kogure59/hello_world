@@ -40,10 +40,10 @@ describe command("bash -lc 'rails -v'") do
   its(:stdout) { should match /Rails 7\.1\.3\.2/ } 
 end
 
-# Bundler のバージョン確認
-describe command("bash -lc 'bundler -v'") do
+# Bundler のバージョン確認 
+describe command('gem list bundler --all') do
   let(:path) { "#{RBENV_PATH}" }
-  its(:stdout) { should match /Bundler version 2\.3\.14/ }
+  its(:stdout) { should match /bundler\s*\(default:\s*2\.4\.19,\s*2\.3\.14\)/ }
 end
 
 # MySQL のバージョン確認
@@ -73,7 +73,7 @@ describe port(80) do
 end
 
 # 出力が 200 であること（正常な HTTP レスポンス）
-describe command("curl -o /dev/null -w '%{http_code}' #{ENV['ALB_DNS_NAME']}") do
+describe command("curl -o /dev/null -w '%{http_code}' http://#{ENV['ALB_DNS_NAME']}") do
   its(:stdout) { should match /^200$/ }
 end
 
