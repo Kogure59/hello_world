@@ -73,7 +73,7 @@ describe port(80) do
 end
 
 # 出力が 200 であること（正常な HTTP レスポンス）
-describe command("curl -o /dev/null -w '%{http_code}' http://#{ENV['ALB_DNS_NAME']}") do
+describe command("curl -o /dev/null -w '%{http_code}' http://#{ENV['ALB_DNS_NAME']}/") do
   its(:stdout) { should match /^200$/ }
 end
 
