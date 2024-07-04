@@ -72,8 +72,8 @@ describe port(80) do
   it { should be_listening }
 end
 
-# 出力が 200 であること（正常な HTTP レスポンス）
-describe command("curl -o /dev/null -w '%{http_code}' http://#{ENV['ALB_DNS_NAME']}/") do
+# ALB の接続確認
+describe command("curl http://#{ENV['ALB_DNS_NAME']}/ -o /dev/null -w '%{http_code}\n' -s") do
   its(:stdout) { should match /^200$/ }
 end
 
