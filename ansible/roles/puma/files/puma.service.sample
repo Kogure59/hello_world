@@ -22,7 +22,7 @@ User=ec2-user
 # The path to the your application code root directory.
 # Also replace the "<YOUR_APP_PATH>" place holders below with this path.
 # Example /home/username/myapp
-WorkingDirectory=/home/ec2-user/var/www/raisetech-live8-sample-app
+WorkingDirectory=/var/www/raisetech-live8-sample-app
 
 # Helpful for debugging socket activation, etc.
 # Environment=PUMA_DEBUG=1  # Puma の動作に問題があり、詳細なデバッグ情報が必要な場合

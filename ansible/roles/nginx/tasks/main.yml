@@ -24,3 +24,12 @@
     name: nginx
     state: started
     enabled: yes
+
+- name: Change Nginx user to ec2-user
+  become: yes
+  replace:
+    path: /etc/nginx/nginx.conf
+    regexp: 'user\s+nginx;'
+    replace: 'user ec2-user;'
+    backup: yes
+  notify: Restart nginx
