@@ -33,6 +33,7 @@
   template:
     src: "{{ item.src }}"
     dest: "/var/www{{ app_directory }}/config/{{ item.dest }}"
+    mode: 0644
   loop:
     - { src: 'database.yml.j2', dest: 'database.yml' }
     - { src: 'development.rb.j2', dest: 'environments/development.rb' }

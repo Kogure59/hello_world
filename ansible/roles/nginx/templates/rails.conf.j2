@@ -4,7 +4,7 @@ upstream puma {  # Pumaと連携させるための設定
 
 server {  # サーバの設定
     listen 80;
-    server_name lecture10-alb-691631160.ap-northeast-1.elb.amazonaws.com;
+    server_name {{ alb_dns_name }};
 
     access_log  /var/log/nginx/access.log;
     error_log   /var/log/nginx/error.log;
