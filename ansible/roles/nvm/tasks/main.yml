@@ -1,33 +1,43 @@
 ---
 - name: Check if nvm is installed
+  become: no
   stat:
     path: /home/ec2-user/.nvm
   register: nvm_installed
 
 - name: Install nvm
-  get_url:
-    url: https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh
-    dest: /home/ec2-user/install_nvm.sh
-    mode: 'u+rwx,g+rx,o+rx'
+  become: no
+  shell: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
   when: not nvm_installed.stat.exists
-
-- name: Run nvm installation script
-  command: /bin/bash /home/ec2-user/install_nvm.sh
-  args:
-    creates: /home/ec2-user/.nvm
-
-- name: Load nvm script
-  shell: |
-    export NVM_DIR="/home/ec2-user/.nvm"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This Loads nvm
   args:
     executable: /bin/bash
 
+- name: Ensure nvm.sh script is loaded in .bash_profile
+  become: no
+  lineinfile:
+    path: /home/ec2-user/.bash_profile
+    line: export NVM_DIR="/home/ec2-user/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+    state: present
+
 - name: Check if Node.js is installed
-  command: "nvm list | grep -q '{{ node_version }}'"
+  become: no
+  shell: |
+    export NVM_DIR="/home/ec2-user/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    nvm list | grep -q '{{ node_version }}'
   register: node_installed
   ignore_errors: yes
+  args:
+    executable: /bin/bash
 
-- name: Install Node.js 
-  command: "nvm install {{ node_version }}"
-  when: node_installed is failed
+- name: Install Node.js
+  become: no
+  shell: |
+    export NVM_DIR="/home/ec2-user/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    nvm install {{ node_version }}
+    nvm use {{ node_version }}
+    nvm alias default {{ node_version }}
+  when: node_installed.rc != 0
+  args:
+    executable: /bin/bash

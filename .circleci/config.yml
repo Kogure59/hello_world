@@ -32,7 +32,7 @@ jobs:
               aws cloudformation deploy --template-file cloudformation/SecurityGroup_lec10.yml --stack-name lecture10-SecurityGroup --parameter-overrides MyIP=$MyIP
               aws cloudformation deploy --template-file cloudformation/EC2_lec10.yml --stack-name lecture10-EC2 --capabilities CAPABILITY_IAM
               aws cloudformation deploy --template-file cloudformation/ALB_lec10.yml --stack-name lecture10-ALB
-              aws cloudformation deploy --template-file cloudformation/RDS_lec10.yml --stack-name lecture10-RDS --parameter-overrides RDSUserPassword=$RDSUserPassword
+              aws cloudformation deploy --template-file cloudformation/RDS_lec10.yml --stack-name lecture10-RDS 
               aws cloudformation deploy --template-file cloudformation/S3_lec10.yml --stack-name lecture10-S3
 
   execute-ansible:
@@ -43,7 +43,7 @@ jobs:
           version: 2.9.27
       - add_ssh_keys:
           fingerprints:
-            - "af:0d:22:7d:d2:62:34:7d:89:fa:21:33:e0:7f:71:2c"
+            - "SHA256:Ca0BqzemOuczQo4+QVf62VZHFTO7RRUHcNlpmzuCfhw"
       - run:
           name: add fingerprint of host key to known hosts
           command: ssh-keyscan -H $ElasticIP >> $HOME/.ssh/known_hosts  # ElasticIP に関連する SSH 公開鍵を取得し、known_hosts ファイルに追記
@@ -59,7 +59,7 @@ jobs:
     steps:
       - checkout
       - ruby/install:
-          version: 3.1.2
+          version: 3.2.3
       - run:
           name: Change ServerSpec host folder name
           command: mv ./serverspec/spec/target_node ./serverspec/spec/$TARGET_HOST  # 動的にホストネームを変更

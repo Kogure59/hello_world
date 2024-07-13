@@ -6,7 +6,11 @@
   ignore_errors: yes
 
 - name: Install yarn
-  npm:
-    name: yarn
-    global: yes
+  become: no
+  shell: |
+    export NVM_DIR="/home/ec2-user/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    npm install -g yarn@1.22.19
   when: yarn_installed is failed
+  args:
+    executable: /bin/bash

@@ -4,24 +4,33 @@
     name: mariadb-libs
     state: absent
 
-- name: Install MySQL 8.0 community release RPM
+- name: Check if MySQL 8.0 community release RPM is installed
   command:
-    cmd: yum localinstall -y https://dev.mysql.com/get/mysql80-community-release-el7-9.noarch.rpm
-  register: mysql_repo_installed
+    cmd: rpm -q mysql84-community-release-el7-1
+  register: mysql_rpm_check 
+  failed_when: false    #　失敗しても以降の処理を続行
+  changed_when: false   #　どの結果も変更があったとはみなさない
 
-- name: Enable mysql80-community
-  shell: |
-    yum-config-manager --disable mysql57-community
-    yum-config-manager --enable mysql80-community
+- name: Install MySQL 8.4 community release RPM
+  command:
+    cmd: yum localinstall -y https://dev.mysql.com/get/mysql84-community-release-el7-1.noarch.rpm
+  register: mysql_rpm_installed
+  when: mysql_rpm_check.rc != 0
+
+- name: Disable MySQL 5.7 community repository
+  command: yum-config-manager --disable mysql57-community
+  when: mysql_rpm_installed.changed 
+
+- name: Enable MySQL 8.0 community repository
+  command: yum-config-manager --enable mysql80-community
+  when: mysql_rpm_installed.changed 
 
 - name: install mysql-community-client
   yum:
     name: mysql-community-client
     state: present
-  when: mysql_repo_installed.changed
 
 - name: Install MySQL development tools
   yum:
     name: mysql-community-devel
     state: present
-  when: mysql_repo_installed.changed

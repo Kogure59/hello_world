@@ -7,17 +7,6 @@ Parameters:
     Type: String
     Default: lecture10 
 
-# ----------------------
-# RDS User Password
-# ----------------------
-  RDSUserPassword:
-    NoEcho: true  # パラメータ値をマスク
-    Description: "rds master user password"
-    Type: String
-    MinLength: 8
-    MaxLength: 128
-    AllowedPattern: "[a-zA-Z0-9]*"
-
 # --------------    
 # Resources
 # --------------
@@ -58,7 +47,7 @@ Resources:
       EngineVersion: 8.0.33
       LicenseModel: general-public-license
       MasterUsername: admin
-      MasterUserPassword: !Ref RDSUserPassword
+      MasterUserPassword: "{{resolve:secretsmanager:lec10-rds-jsonSecrets:SecretString:RDSUserPassword}}"
       MultiAZ: false
       Port: 3306
       PubliclyAccessible: false

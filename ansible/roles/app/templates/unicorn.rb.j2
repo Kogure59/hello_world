@@ -3,8 +3,8 @@ timeout 15
 preload_app true
 
 # listen 8080
-listen '/var/www/raisetech-live8-sample-app/unicorn.sock'
-pid    '/var/www/raisetech-live8-sample-app/unicorn.pid'
+listen '{{ app_directory }}/unicorn.sock'
+pid    '{{ app_directory }}/unicorn.pid'
 
 before_fork do |server, worker|
     Signal.trap 'TERM' do

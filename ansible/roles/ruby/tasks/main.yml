@@ -1,46 +1,53 @@
 ---
 - name: Check if rbenv is installed
+  become: no
   stat:
     path: /home/ec2-user/.rbenv
   register: rbenv_installed
 
 - name: Install rbenv
+  become: no
   git:
     repo: https://github.com/sstephenson/rbenv.git
     dest: /home/ec2-user/.rbenv
   when: not rbenv_installed.stat.exists
 
 - name: Configure PATH for rbenv
+  become: no
   lineinfile:
     path: /home/ec2-user/.bash_profile
     line: 'export PATH="$HOME/.rbenv/bin:$PATH"'
-  when: not rbenv_installed.stat.exists
 
 - name: Initialize rbenv
+  become: no
   lineinfile:
     path: /home/ec2-user/.bash_profile
     line: 'eval "$(rbenv init -)"'
-  when: not rbenv_installed.stat.exists
-
-- name: Reload shell
-  command: "exec $SHELL --login"
-  when: not rbenv_installed.stat.exists
 
 - name: Check if ruby-build is installed
+  become: no
   stat:
     path: /home/ec2-user/.rbenv/plugins/ruby-build
   register: ruby_build_installed
 
-- name: Install ruby-build
+- name: Install ruby-build  # rbenv プラグインとして ruby-build をインストール
+  become: no
   git:
     repo: https://github.com/sstephenson/ruby-build.git
     dest: /home/ec2-user/.rbenv/plugins/ruby-build
   when: not ruby_build_installed.stat.exists
 
-- name: Install Ruby
-  shell: /home/ec2-user/.rbenv/bin/rbenv install {{ ruby_version }}
+- name: Check for specified Ruby version
+  become: no
+  shell: bash -lc "rbenv version | grep {{ ruby_version }}"
+  register: ruby_version_check
+  changed_when: no
+  ignore_errors: yes
+    
+- name: Install and set Ruby v{{ ruby_version }} as default if not already
+  become: no
+  shell: |
+    bash -lc "rbenv install {{ ruby_version }}"
+    bash -lc "rbenv global {{ ruby_version }}"
   args:
     creates: /home/ec2-user/.rbenv/versions/{{ ruby_version }}
-
-- name: Set global Ruby version
-  shell: /home/ec2-user/.rbenv/bin/rbenv global {{ ruby_version }}

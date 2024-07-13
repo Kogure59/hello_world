@@ -1,30 +1,41 @@
 ---
-- name: Ensure the directory ownership is ec2-user
+- name: Check if /var/www directory exists
+  stat:
+    path: /var/www
+  register: directory_stat
+
+- name: Create /var/www directory
   file:
-    path: "{{ app_directory }}"
+    path: /var/www
     state: directory
     owner: ec2-user
     group: ec2-user
-    recurse: yes
+    mode: 0755
+  when: not directory_stat.stat.exists
 
 - name: Clone the GitHub repository
-  become: no
   git:
     repo: "{{ app_repo_url }}"
-    dest: "{{ app_directory }}"
+    dest: "/var/www{{ app_directory }}"
     force: yes
+  when: directory_stat.stat.exists 
+
+- name: Recursively change permissions of {{ app_directory }}
+  file:
+    path: "/var/www{{ app_directory }}"
+    state: directory
+    owner: ec2-user
+    group: ec2-user
+    mode: 0755
+    recurse: yes 
 
 - name: Copy configuration files
-  become: no
   template:
     src: "{{ item.src }}"
-    dest: "{{ app_directory }}/config/{{ item.dest }}"
+    dest: "/var/www{{ app_directory }}/config/{{ item.dest }}"
+    mode: 0644
   loop:
     - { src: 'database.yml.j2', dest: 'database.yml' }
     - { src: 'development.rb.j2', dest: 'environments/development.rb' }
     - { src: 'storage.yml.j2', dest: 'storage.yml' }
     - { src: 'unicorn.rb.j2', dest: 'unicorn.rb' }
-
-- name: Run bin/setup
-  become: no
-  command: "{{ app_directory }}/bin/setup"

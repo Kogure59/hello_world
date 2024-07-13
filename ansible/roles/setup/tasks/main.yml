@@ -1,0 +1,32 @@
+---
+- name: Install necessary gems
+  become: no
+  shell: |
+    export PATH="$HOME/.rbenv/bin:$HOME/.rbenv/shims:$HOME/.gem/ruby/3.2.3/bin:$PATH"
+    bundle install
+  args:
+    chdir: "/var/www{{ app_directory }}"
+    executable: /bin/bash
+
+- name: Run application setup script 
+  shell: |
+    export PATH="$HOME/.rbenv/bin:$PATH"
+    eval "$(rbenv init -)"
+    source ~/.bash_profile
+    bin/setup
+  args:
+    chdir: "/var/www{{ app_directory }}"
+    executable: /bin/bash
+  become_user: ec2-user
+
+- name: Precompile application assets  
+  shell: |
+    export PATH="$HOME/.rbenv/bin:$PATH"
+    eval "$(rbenv init -)"
+    export PATH="$HOME/.rbenv/shims:$PATH"
+    source ~/.bash_profile
+    rails assets:precompile
+  args:
+    chdir: "/var/www{{ app_directory }}"
+    executable: /bin/bash
+  become_user: ec2-user
