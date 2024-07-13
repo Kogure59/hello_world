@@ -105,7 +105,7 @@ $ bin/dev
 ``````
 - EC2 のセキュリティグループに3000番ポートを許可するルールを追加
 
-![Pumaのみで起動](images_lec05/lecture05/rails_deploy_puma.png)
+![Pumaのみで起動](/images/images_lec05/lecture05/rails_deploy_puma.png)
 
 ## Unicorn と Nginx の設定
 ``````
@@ -136,24 +136,24 @@ $ sudo systemctl restart nginx
 $ sudo systemctl status nginx    # active(running)と表示されればok
 ``````
 #### unicorn.rb
-![Alt text](images_lec05/lecture05/unicorn_rb.png)
+![Alt text](/images/images_lec05/lecture05/unicorn_rb.png)
 
 #### nginx.conf
-![Alt text](images_lec05/lecture05/nginx.conf_1.png)
-![Alt text](images_lec05/lecture05/nginx.conf_2.png)
+![Alt text](/images/images_lec05/lecture05/nginx.conf_1.png)
+![Alt text](/images/images_lec05/lecture05/nginx.conf_2.png)
 
 ## Unicorn + Nginx で rails アプリを起動
 `unicorn.rb` の `listen` の箇所をポート8080にしてみて、これに伴いEC2のセキュリティグループのインバウンドルールでポート8080を開放した。
 
-![Alt text](images_lec05/lecture05/unicorn_rb_deploy.png)
-![Alt text](images_lec05/lecture05/rails_deploy_unicorn.png)
+![Alt text](/images/images_lec05/lecture05/unicorn_rb_deploy.png)
+![Alt text](/images/images_lec05/lecture05/rails_deploy_unicorn.png)
 
 ## ALB 適用
 少なくとも 2 つ以上のアベイラビリティーゾーンを有効にする必要があるが、対象のインスタンスは1つでも設定できる。
 
-![Alt text](images_lec05/lecture05/alb.png)
+![Alt text](/images/images_lec05/lecture05/alb.png)
 
-![Alt text](images_lec05/lecture05/target_group.png)
+![Alt text](/images/images_lec05/lecture05/target_group.png)
 
 ## DNS から rails アプリへアクセス
 
@@ -172,16 +172,16 @@ $ sudo systemctl status nginx    # active(running)と表示されればok
   ```
   
   その後、ブラウザで DNS を叩くと問題なく表示された。
-![Alt text](images_lec05/lecture05/rails_deploy_alb_dns.png)
+![Alt text](/images/images_lec05/lecture05/rails_deploy_alb_dns.png)
 
 
 ## S3 の追加
 - S3 バケットを作成する
 - Amazon S3 へのアクセスを許可する IAM インスタンスプロファイル ( IAM ロール ) を作成する
-![Alt text](images_lec05/lecture05/iam_role_1.png)
-![Alt text](images_lec05/lecture05/iam_role_2.png)
-![Alt text](images_lec05/lecture05/iam_role_3_1.png)
-![Alt text](images_lec05/lecture05/iam_role_3_2.png)
+![Alt text](/images/images_lec05/lecture05/iam_role_1.png)
+![Alt text](/images/images_lec05/lecture05/iam_role_2.png)
+![Alt text](/images/images_lec05/lecture05/iam_role_3_1.png)
+![Alt text](/images/images_lec05/lecture05/iam_role_3_2.png)
 
 - IAM インスタンスプロファイル ( IAM ロール ) を EC2 インスタンスにアタッチする
 - ActiveStorageのストレージをAmazon S3へ向ける
@@ -189,10 +189,10 @@ $ sudo systemctl status nginx    # active(running)と表示されればok
   * `config/storage.yml` に `region` 、 `bucket` を記述し、 `access_key_id` と `secret_access_key` はコメントアウトする。 ( IAM ロールはアクセスキーとシークレットキーを不要とするため。 )  
 
   #### development.rb
-  ![Alt text](images_lec05/lecture05/development.rb_.png)
+  ![Alt text](/images/images_lec05/lecture05/development.rb_.png)
 
   #### storage.yml
-  ![Alt text](images_lec05/lecture05/strage.yml_.png)
+  ![Alt text](/images/images_lec05/lecture05/strage.yml_.png)
 
 - S3 バケットへのアクセスを検証する
   * 接続確認
@@ -201,31 +201,31 @@ $ sudo systemctl status nginx    # active(running)と表示されればok
 
   `aws s3 ls`
 
-  ![Alt text](images_lec05/lecture05/s3%E6%8E%A5%E7%B6%9A%E7%A2%BA%E8%AA%8D.png)
+  ![Alt text](/images/images_lec05/lecture05/s3%E6%8E%A5%E7%B6%9A%E7%A2%BA%E8%AA%8D.png)
 
   * 動作確認
   
   ( 1 ) EC2 上からファイルを削除したり、追加した際にS3 のバケットに反映されているかどうか
 
-  ![Alt text](images_lec05/lecture05/s3_%E5%8B%95%E4%BD%9C%E7%A2%BA%E8%AA%8D.png)
+  ![Alt text](/images/images_lec05/lecture05/s3_%E5%8B%95%E4%BD%9C%E7%A2%BA%E8%AA%8D.png)
 
   ( 2 ) S3 側で削除したり追加したものが EC2 に反映さ
 れているかどうか
 
-  ![Alt text](images_lec05/lecture05/s3_%E5%8B%95%E4%BD%9C%E7%A2%BA%E8%AA%8D_2_1.png)
-  ![Alt text](images_lec05/lecture05/s3_%E5%8B%95%E4%BD%9C%E7%A2%BA%E8%AA%8D_2_2-1.png)
+  ![Alt text](/images/images_lec05/lecture05/s3_%E5%8B%95%E4%BD%9C%E7%A2%BA%E8%AA%8D_2_1.png)
+  ![Alt text](/images/images_lec05/lecture05/s3_%E5%8B%95%E4%BD%9C%E7%A2%BA%E8%AA%8D_2_2-1.png)
 
-  ![Alt text](images_lec05/lecture05/s3_%E5%8B%95%E4%BD%9C%E7%A2%BA%E8%AA%8D_2_3.png)
-  ![Alt text](images_lec05/lecture05/s3_%E5%8B%95%E4%BD%9C%E7%A2%BA%E8%AA%8D_2_4.png)
+  ![Alt text](/images/images_lec05/lecture05/s3_%E5%8B%95%E4%BD%9C%E7%A2%BA%E8%AA%8D_2_3.png)
+  ![Alt text](/images/images_lec05/lecture05/s3_%E5%8B%95%E4%BD%9C%E7%A2%BA%E8%AA%8D_2_4.png)
 
 - アプリケーションへの画像アップロードの確認
-![Alt text](images_lec05/lecture05/s3_upload_1.png)
+![Alt text](/images/images_lec05/lecture05/s3_upload_1.png)
 
 - S3への画像保存確認
-![Alt text](images_lec05/lecture05/s3_upload_2.png)
+![Alt text](/images/images_lec05/lecture05/s3_upload_2.png)
 
 ## 環境の構成図
-![Alt text](images_lec05/lecture05/lecture05_%E6%A7%8B%E6%88%90%E5%9B%B3_2.png)
+![Alt text](/images/images_lec05/lecture05/lecture05_%E6%A7%8B%E6%88%90%E5%9B%B3_2.png)
 
 ## 参考記事
 - [【CentOS 7】Nginx + Unicorn で Rails アプリケーションを本番環境で立ち上げる方法](https://zenn.dev/noraworld/articles/deploy-rails-application-with-nginx-and-unicorn)

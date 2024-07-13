@@ -32,7 +32,7 @@ workflows:
 ### 結果
 サンプルコンフィグが正しく動作した。
 
-![Alt text](images_lec12/lecture12/cfn-lint_lec12.png)
+![Alt text](/images/images_lec12/lecture12/cfn-lint_lec12.png)
 ---
 ### 参考
 - [CircleCI ドキュメント / スタートガイド](https://circleci.com/docs/ja/getting-started/)

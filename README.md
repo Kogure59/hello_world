@@ -10,7 +10,7 @@
   * [RaiseTechの課題](##-RaiseTechの課題)
   * [自主学習](##-自主学習)
 ## 実践概要
-### AWS EC2 上で Ruby on Rails のサンプルアプリケーションをデプロイ 
+### AWS EC2 上で Ruby on Rails のサンプルアプリケーションをデプロイ (手動構築)
 - 組み込みサーバ ( Puma ) でデプロイ
 - Web サーバ ( Nginx ) + アプリケーションサーバ ( Unicorn ) でデプロイ
 - ELB ( ALB ) 、 S3 を追加
@@ -24,43 +24,51 @@
   * Ansible を実行し、プロビジョニングを自動化する
   * ServerSpec を実行し、インフラのテストを自動化する
 ## 成果物
-### AWS EC2 上での Rails アプリのデプロイ
-詳細は [lecture05.md](lecture05.md) を参照してください。
-  
-構成図
+### AWS EC2 上での Rails アプリのデプロイ 
+詳細は下記の md ファイルを参照してください。
+- [lecture04.md](reports\lecture04.md)
+- [lecture05.md](reports\lecture05.md)  
+
+手動で下記の図のような環境を構築し、 Rails アプリをデプロイしました。  
+EC2 の OS は Amazon Linux 2 、 RDS は MySQL を利用。  
+Rails アプリの Web サーバーと AP サーバーは、組み込みサーバーである Puma でのデプロイに加え、 Nginx + Unicorn の構成でのデプロイを実践しました。
+![構成図](images\images_lec05\lecture05\lecture05_構成図_2.png)
 ### CloudFormation による自動構築
-詳細は [lecture10.md](lecture10.md) を参照してください。  
+詳細は [lecture10.md](reports\lecture10.md) を参照してください。  
 CloudFormation のコードは [cloudformation](cloudformation) ディレクトリを参照してください。
 ### CircleCI による CI/CD 環境の構築
 詳細は下記の md ファイルを参照してください。  
-- [lecture11.md](lecture11.md)
-- [lecture12.md](lecture12.md)
-- [lecture13.md](lecture13.md)
+- [lecture11.md](reports\lecture11.md)
+- [lecture12.md](reports\lecture12.md)
+- [lecture13.md](reports\lecture13.md)
+
+下記の図のように GitHub へのプッシュを CircleCI が検知し、 AWS 環境の構築、アプリデプロイのためのセットアップ、サーバーのテストを自動化しています。  
+手動構築をした環境では Nginx + Unicorn の構成でしたが、サンプルアプリケーションのリポジトリにおける Ruby と Rails のバージョンアップが行われたため、 Nginx + Puma の構成で環境を構築しました。  
 
 各ツールのコードは下記のディレクトリを参照してください。
 - [.circleci](.circleci)
 - [cloudformation](cloudformation)
 - [ansible](ansible)
 - [serverspec](serverspec)
-  
-自動化処理がわかる図
+
+![構成図](images\images_lec13\lecture13\lec13_drawio.png)
 ## 学習記録
 ### RaiseTechの課題
 #### RaiseTechの課題は以下の方針のもと進めていきます
 - RaiseTech では現場と同じ依頼の粒度で課題を出す
 - 原則、細かい指示はない
-- 指示のない部分を考え、積極的に質問していただくことが現場でのベーススキルになる
+- 指示のない部分を考え、積極的に質問することが現場でのベーススキルになる
 ### AWS フルコースカリキュラムと課題の概要
 #### 全16回の講座を受講
 1. AWS とは、インフラエンジニアとは 
     * AWS アカウントを作成
     * IAM の推奨設定 ( MFA, Billing, AdministratorAccess )
     * Amazon Linux 2 で作成した Cloud9 で Ruby を使って HelloWorld を出力
-2. バージョン管理システム ( [lecture02.md](lecture02.md) )
+2. バージョン管理システム ( [lecture02.md](reports\lecture02.md) )
     * GitHub でリポジトリを作成
     * Cloud9 の Git 設定変更 ( init.defaultBranch / user.name / user.email )
     * 講座の感想を Markdown で書き、プルリクエストを発行
-3. Web アプリケーションとは、システム ( アプリケーション ) 開発の流れ、外部ライブラリと構成管理 ( [lecture03.md](lecture03.md) )
+3. Web アプリケーションとは、システム ( アプリケーション ) 開発の流れ、外部ライブラリと構成管理 ( [lecture03.md](reports\lecture03.md) )
     * サンプルアプリケーションの起動
       + サンプルアプリケーションを GitHub からクローン
       + 添付されている README.md の理解
@@ -68,37 +76,37 @@ CloudFormation のコードは [cloudformation](cloudformation) ディレクト�
       + Web ブラウザでの接続確認
     * AP サーバー、 DB サーバーについて調べる( サーバーの名前・バージョン )
     * 課題から学んだことをまとめる
-4. AWS の環境完成のイメージ、 AWS での権限管理 ( [lecture04.md](lecture04.md) )
+4. AWS の環境完成のイメージ、 AWS での権限管理 ( [lecture04.md](reports\lecture04.md) )
     * AWS 上に新しく VPC を作成し、 EC2 と RDS を構築
     * EC2 から RDS へ接続し、正常であることを確認
-5. EC2 にアプリケーションのデプロイ、 ELB 、 S3 、インフラ構成図 ( [lecture05.md](lecture05.md) )
+5. EC2 にアプリケーションのデプロイ、 ELB 、 S3 、インフラ構成図 ( [lecture05.md](reports\lecture05.md) )
     * EC2 上に第 3 回課題のサンプルアプリケーションをデプロイ
       + まずは組み込みサーバー ( puma ) だけでデプロイ
       + 動作したらサーバーアプリケーションを分けてデプロイ ( Unicorn + Nginx )
     * ELB の追加
     * S3 の追加
     * 構成図の作成
-6. AWS での証跡、ロギング、監視、通知、コスト管理 ( [lecture06.md](lecture06.md) )
+6. AWS での証跡、ロギング、監視、通知、コスト管理 ( [lecture06.md](reports\lecture06.md) )
     * 最後に AWS を利用した日の記録を CloudTrail のイベントから探し出す
       + 自身の IAM ユーザー名があるもの
       + 見つけたイベントのイベント名と含まれている内容を 3 つピックアップ
     * CloudWatch アラームを使って、 ALB のアラームを設定して、メールを通知する
       + メールには Amazon SNS を使う
       + アラームとアクションを設定した状態で、 Rails アプリケーションが使える・使えない状態それぞれで動作を確認
-7. システムにおけるセキュリティの基礎、 AWS でのセキュリティ対策 ( [lecture07.md](lecture07.md) )
+7. システムにおけるセキュリティの基礎、 AWS でのセキュリティ対策 ( [lecture07.md](reports\lecture07.md) )
     * これまでに作成した環境は、どのような攻撃に対して「脆弱」か、また、どのような対策が取れそうかを考えてまとめる
 8. 構築の実演 ( 1 ) 〈※課題は無し〉
 9. 構築の実演 ( 2 ) 〈※課題は無し〉
-10. インフラ自動化、 CloudFormation ( [lecture10.md](lecture10.md) )
+10. インフラ自動化、 CloudFormation ( [lecture10.md](reports\lecture10.md) )
     * CloudFormation を利用して、これまでに作成した環境をコード化する
     * コード化ができたら実行して、環境が自動で作られていることを確認する
-11. インフラのコード化を支援するツール、インフラのテストとは ( [lecture11.md](lecture11.md) )
+11. インフラのコード化を支援するツール、インフラのテストとは ( [lecture11.md](reports\lecture11.md) )
     * ServerSpec のテストが成功することを確認する
       + 提供されるサンプルをカスタマイズする
       + テスト定義には決まった答えはないので、自由な発想で色々試す
-12. Terraform、 DevOps 、 CI/CD ツールとは ( [lecture12.md](lecture12.md) )
+12. Terraform、 DevOps 、 CI/CD ツールとは ( [lecture12.md](reports\lecture12.md) )
     * 提供される CircleCI のサンプルコンフィグを、正しく動作するようにリポジトリに組み込む
-13. Ansible 、 OpsWorks 、 CircleCI との併用 ( [lecture13.md](lecture13.md) )
+13. Ansible 、 OpsWorks 、 CircleCI との併用 ( [lecture13.md](reports\lecture13.md) )
     * CircleCI のサンプルに ServerSpec と Ansible の処理を追加する
 14. ライブコーディング ( Ansible 〜 CircleCI )
     * これまでの AWS 構成図、自動化処理がわかる図、リポジトリの README を作る

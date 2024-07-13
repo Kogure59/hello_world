@@ -85,7 +85,7 @@ end
 ```
 `rake spec` でテスト実行
 ### 実行結果
-![Alt text](images_lec11/lecture11/test_lec11.png)
+![Alt text](/images/images_lec11/lecture11/test_lec11.png)
 ---
 ### 参考
 - [Serverspecの導入とテストの書き方](https://qiita.com/oh_4shiki/items/9439249781b5557a19b6)

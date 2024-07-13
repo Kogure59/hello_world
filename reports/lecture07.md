@@ -24,7 +24,7 @@
 ---
 ### 第5回課題までに構築した環境は、どんな攻撃にたいして「脆弱」か、どのような対策が取れそうか
 
-![Alt text](images_lec05/lecture05/lecture05_%E6%A7%8B%E6%88%90%E5%9B%B3_2.png)
+![Alt text](/images/images_lec05/lecture05/lecture05_%E6%A7%8B%E6%88%90%E5%9B%B3_2.png)
 
 #### 現在の設定されているセキュリティ
 - ELB へのアクセスはマイ IP からのみ許可している。
