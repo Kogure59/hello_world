@@ -88,7 +88,7 @@ CloudFormation のコードは [cloudformation](cloudformation) ディレクト�
     + AWS_SECRET_ACCESS_KEY ... 手順 2 で作成したシークレットアクセスキーです。
     + AWS_DEFAULT_REGION ... CloudFormation を実行するリージョン ( ここでは東京リージョン ) です。
     + MyIP ... EC2 セキュリティグループのインバウンドルール ( Port 22 ) に設定する IP アドレス ( ここではローカル PC の IP アドレス )です。
-  - `.circleci/config.yml` の Ansible 以下 をコメントアウトし、 CloudFormation までを実行します。
+  - `.circleci/config.yml` の Ansible 、 ServerSpec の設定をコメントアウトし、 CloudFormation までを実行します。
 
 #### 5. CircleCI に SSH Key を追加する
   - AWS Systems Manager のパラメーターストアで、作成されたキーペアの値を取得します。  
@@ -114,7 +114,7 @@ CloudFormation のコードは [cloudformation](cloudformation) ディレクト�
 
     CircleCI でジョブを実行するためには、 ターゲットの Port 22 で CircleCI 実行環境の IP アドレスを許可することが必要になります。  
     しかし、 CircleCI の IP アドレスの使用には料金が発生するため、ここでは Port 22 で 0.0.0.0/0 ( すべての IPv4 ) を一時的に許可し、ジョブ完了後に元の MyIP の値に戻すようにします。
-  - `.circleci/config.yml` の全てのジョブを実行します。
+  - `.circleci/config.yml` のコメントアウト ( 手順 4 ) を解除し、実行します。
 ## 学習記録
 ### RaiseTechの課題
 #### RaiseTechの課題は以下の方針のもと進めていきます
