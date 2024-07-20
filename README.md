@@ -1,15 +1,15 @@
 # RaiseTech 課題用リポジトリ
 このリポジトリは、 RaiseTech AWS フルコースの課題に取り組むために作成したリポジトリです。
 ## 目次
-- [実践概要](##-実践概要)
-- [成果物](##-成果物)
-  * [AWS EC2 上での Rails アプリのデプロイ](##-AWS-EC2-上での-Rails-アプリのデプロイ)
-  * [CloudFormation による自動構築](##-CloudFormation-による自動構築)
-  * [CircleCI による CI/CD 環境の構築](##-CircleCI-による-CI/CD-環境の構築)
-- [プロジェクトの作業手順](##-プロジェクトの作業手順)
-- [学習記録](##-学習記録)
-  * [RaiseTechの課題](##-RaiseTechの課題)
-  * [自主学習](##-自主学習)
+- [実践概要](#実践概要)
+- [成果物](#成果物)
+  * [AWS EC2 上での Rails アプリのデプロイ](#aws-ec2-上での-rails-アプリのデプロイ)
+  * [CloudFormation による自動構築](#cloudformation-による自動構築)
+  * [CircleCI による CI/CD 環境の構築](#circleci-による-ci/cd-環境の構築)
+- [プロジェクトの作業手順](#プロジェクトの作業手順)
+- [学習記録](#学習記録)
+  * [RaiseTechの課題](#raisetechの課題)
+  * [自主学習](#自主学習)
 ## 実践概要
 ### AWS EC2 上で Ruby on Rails のサンプルアプリケーションをデプロイ (手動構築)
 - 組み込みサーバ ( Puma ) でデプロイ
@@ -27,19 +27,19 @@
 ## 成果物
 ### AWS EC2 上での Rails アプリのデプロイ 
 詳細は下記の md ファイルを参照してください。  
-[lecture04.md](reports\lecture04.md) 、 [lecture05.md](reports\lecture05.md)  
+[lecture04.md](reports/lecture04.md) 、 [lecture05.md](reports/lecture05.md)  
 
 手動で下記の図のような環境を構築し、 Rails アプリをデプロイしました。  
 EC2 の OS は Amazon Linux 2 、 RDS は MySQL を利用。  
 Rails アプリの Web サーバーと AP サーバーは、組み込みサーバーである Puma でのデプロイに加え、 Nginx + Unicorn の構成でのデプロイを実践しました。
-![構成図](images\images_lec05\lecture05\lecture05_構成図_2.png)
+![構成図](/images/images_lec05/lecture05/lecture05_構成図_2.png)
 ### CloudFormation による自動構築
 上記と同様の環境を構築しました。  
-詳細は [lecture10.md](reports\lecture10.md) を参照してください。  
+詳細は [lecture10.md](reports/lecture10.md) を参照してください。  
 CloudFormation のコードは [cloudformation](cloudformation) ディレクトリを参照してください。
 ### CircleCI による CI/CD 環境の構築
 詳細は下記の md ファイルを参照してください。  
-[lecture11.md](reports\lecture11.md) 、 [lecture12.md](reports\lecture12.md) 、 [lecture13.md](reports\lecture13.md)
+[lecture11.md](reports/lecture11.md) 、 [lecture12.md](reports/lecture12.md) 、 [lecture13.md](reports/lecture13.md)
 
 下記の図のように GitHub へのプッシュを CircleCI が検知し、 AWS 環境の構築、アプリデプロイのためのセットアップ、サーバーのテストを自動化しています。  
 手動構築をした環境では Nginx + Unicorn の構成でしたが、サンプルアプリケーションのリポジトリにおける Ruby と Rails のバージョンアップが行われたため、 Nginx + Puma の構成で環境を構築しました。  
@@ -47,7 +47,7 @@ CloudFormation のコードは [cloudformation](cloudformation) ディレクト�
 各ツールのコードは下記のディレクトリを参照してください。  
 [.circleci](.circleci) 、 [cloudformation](cloudformation) 、 [ansible](ansible) 、 [serverspec](serverspec)
 
-![構成図](images\images_lec13\lecture13\lec13_drawio.png)
+![構成図](/images/images_lec13/lecture13/lec13_drawio.png)
 ## プロジェクトの作業手順  
 まず、前提として
   - CircleCI のアカウントを所持している
@@ -56,32 +56,32 @@ CloudFormation のコードは [cloudformation](cloudformation) ディレクト�
 
 これらの条件を満たしている必要があります。
 ### 作業手順
-1. [自身のリポジトリにこのリポジトリを Fork して、CircleCI にセットアップする](##1.-自身のリポジトリにこのリポジトリを-Fork-して-CircleCI-にセットアップする)
-2. [CircleCI での CloudFormation 実行を許可するアクセスキーを作成する](##2.-CircleCI-での-CloudFormation-実行を許可するアクセスキーを作成する)
-3. [AWS Secrets Manger で RDS の シークレット ( パスワード ) を作成する](##3.-AWS-Secrets-Manger-で-RDS-の-シークレット-(-パスワード-)-を作成する)
-4. [CloudFormation ジョブを実行する](##4.-CloudFormation-ジョブを実行する)
-5. [CircleCI に SSH Key を追加する](##5.-CircleCI-に-SSH-Key-を追加する)
-6. [CircleCI のすべてのジョブを実行する](##6.-CircleCI-のすべてのジョブを実行する)
+1. [このリポジトリを CircleCI にセットアップする](#このリポジトリを-circleci-にセットアップする)
+2. [CircleCI での CloudFormation 実行を許可するアクセスキーを作成する](#circleci-での-cloudformation-実行を許可するアクセスキーを作成する)
+3. [AWS Secrets Manager で RDS のシークレットを作成する](#aws-secrets-manager-で-rds-のシークレットを作成する)
+4. [CloudFormation ジョブを実行する](#cloudformation-ジョブを実行する)
+5. [CircleCI に SSH Key を追加する](#circleci-に-ssh-key-を追加する)
+6. [CircleCI のすべてのジョブを実行する](#circleci-のすべてのジョブを実行する)
 
-#### 1. 自身のリポジトリにこのリポジトリを Fork して、CircleCI にセットアップする
+#### このリポジトリを CircleCI にセットアップする
   - 画面右上の **Fork** ボタンでリポジトリを Fork します。
   - **Code** ボタンから、 HTTPS のリンクをコピーし、自身のローカル環境へ Clone します。
 ![alt text](images/images_readme/README/repo.png)
   - CircleCI に GitHub アカウントでログインし、**Projects** の **Set Up Project** ボタンからセットアップを行います。
 ![alt text](images/images_readme/README/projects_setup.png)
 
-#### 2. CircleCI での CloudFormation 実行を許可するアクセスキーを作成する 
+#### CircleCI での CloudFormation 実行を許可するアクセスキーを作成する 
   - ポリシー `AdministratorAccess` を持つ IAM ユーザーを作成します。
   - アクセスキー と シークレットアクセスキーを作成します。
 ![alt text](images/images_readme/README/iam.png)
 
-#### 3. AWS Secrets Manger で RDS の シークレット ( パスワード ) を作成する
+#### AWS Secrets Manager で RDS のシークレットを作成する
   - Secrets Manager コンソールを開き、「新しいシークレットを保存する」を押します。
   - 「その他のシークレットのタイプ」を選択し、「キー / 値」の形式を選択します。
   - RDS のテンプレートファイルの設定に合わせて、キーは `RDSUserPassword` 、シークレット名は `lec10-rds-jsonSecrets` とします。 
 ![alt text](images/images_readme/README/rds_pw.png)
 
-#### 4. CloudFormation ジョブを実行する
+#### CloudFormation ジョブを実行する
   - CircleCI の **Project Settings** → **Environment Variables** → **Add Environmet Variable** から環境変数を追加します。
 ![alt text](images/images_readme/README/env_var_1-1.png)
     + AWS_ACCESS_KEY_ID ... 手順 2 で作成したアクセスキーです。
@@ -90,7 +90,7 @@ CloudFormation のコードは [cloudformation](cloudformation) ディレクト�
     + MyIP ... EC2 セキュリティグループのインバウンドルール ( Port 22 ) に設定する IP アドレス ( ここではローカル PC の IP アドレス )です。
   - `.circleci/config.yml` の Ansible 、 ServerSpec の設定をコメントアウトし、 CloudFormation までを実行します。
 
-#### 5. CircleCI に SSH Key を追加する
+#### CircleCI に SSH Key を追加する
   - AWS Systems Manager のパラメーターストアで、作成されたキーペアの値を取得します。  
 「復号化された値を表示」をオンにすることで値が表示されます。
 ![alt text](images/images_readme/README/paramaterstore.png)
@@ -101,7 +101,7 @@ CloudFormation のコードは [cloudformation](cloudformation) ディレクト�
 ![alt text](images/images_readme/README/add_ssh_2.png)
 ![alt text](images/images_readme/README/add_ssh_job.png)
 
-#### 6. CircleCI のすべてのジョブを実行する
+#### CircleCI のすべてのジョブを実行する
   - 手順 4 と同様に CircleCI に環境変数を追加します。
     + ElasticIP ... 作成された Elastic IP アドレスです。
     + DB_HOST ... 作成された RDS の エンドポイントです。
@@ -127,11 +127,11 @@ CloudFormation のコードは [cloudformation](cloudformation) ディレクト�
     * AWS アカウントを作成
     * IAM の推奨設定 ( MFA, Billing, AdministratorAccess )
     * Amazon Linux 2 で作成した Cloud9 で Ruby を使って HelloWorld を出力
-2. バージョン管理システム ( [lecture02.md](reports\lecture02.md) )
+2. バージョン管理システム ( [lecture02.md](reports/lecture02.md) )
     * GitHub でリポジトリを作成
     * Cloud9 の Git 設定変更 ( init.defaultBranch / user.name / user.email )
     * 講座の感想を Markdown で書き、プルリクエストを発行
-3. Web アプリケーションとは、システム ( アプリケーション ) 開発の流れ、外部ライブラリと構成管理 ( [lecture03.md](reports\lecture03.md) )
+3. Web アプリケーションとは、システム ( アプリケーション ) 開発の流れ、外部ライブラリと構成管理 ( [lecture03.md](reports/lecture03.md) )
     * サンプルアプリケーションの起動
       + サンプルアプリケーションを GitHub からクローン
       + 添付されている README.md の理解
@@ -139,37 +139,37 @@ CloudFormation のコードは [cloudformation](cloudformation) ディレクト�
       + Web ブラウザでの接続確認
     * AP サーバー、 DB サーバーについて調べる( サーバーの名前・バージョン )
     * 課題から学んだことをまとめる
-4. AWS の環境完成のイメージ、 AWS での権限管理 ( [lecture04.md](reports\lecture04.md) )
+4. AWS の環境完成のイメージ、 AWS での権限管理 ( [lecture04.md](reports/lecture04.md) )
     * AWS 上に新しく VPC を作成し、 EC2 と RDS を構築
     * EC2 から RDS へ接続し、正常であることを確認
-5. EC2 にアプリケーションのデプロイ、 ELB 、 S3 、インフラ構成図 ( [lecture05.md](reports\lecture05.md) )
+5. EC2 にアプリケーションのデプロイ、 ELB 、 S3 、インフラ構成図 ( [lecture05.md](reports/lecture05.md) )
     * EC2 上に第 3 回課題のサンプルアプリケーションをデプロイ
       + まずは組み込みサーバー ( puma ) だけでデプロイ
       + 動作したらサーバーアプリケーションを分けてデプロイ ( Unicorn + Nginx )
     * ELB の追加
     * S3 の追加
     * 構成図の作成
-6. AWS での証跡、ロギング、監視、通知、コスト管理 ( [lecture06.md](reports\lecture06.md) )
+6. AWS での証跡、ロギング、監視、通知、コスト管理 ( [lecture06.md](reports/lecture06.md) )
     * 最後に AWS を利用した日の記録を CloudTrail のイベントから探し出す
       + 自身の IAM ユーザー名があるもの
       + 見つけたイベントのイベント名と含まれている内容を 3 つピックアップ
     * CloudWatch アラームを使って、 ALB のアラームを設定して、メールを通知する
       + メールには Amazon SNS を使う
       + アラームとアクションを設定した状態で、 Rails アプリケーションが使える・使えない状態それぞれで動作を確認
-7. システムにおけるセキュリティの基礎、 AWS でのセキュリティ対策 ( [lecture07.md](reports\lecture07.md) )
+7. システムにおけるセキュリティの基礎、 AWS でのセキュリティ対策 ( [lecture07.md](reports/lecture07.md) )
     * これまでに作成した環境は、どのような攻撃に対して「脆弱」か、また、どのような対策が取れそうかを考えてまとめる
 8. 構築の実演 ( 1 ) 〈※課題は無し〉
 9. 構築の実演 ( 2 ) 〈※課題は無し〉
-10. インフラ自動化、 CloudFormation ( [lecture10.md](reports\lecture10.md) )
+10. インフラ自動化、 CloudFormation ( [lecture10.md](reports/lecture10.md) )
     * CloudFormation を利用して、これまでに作成した環境をコード化する
     * コード化ができたら実行して、環境が自動で作られていることを確認する
-11. インフラのコード化を支援するツール、インフラのテストとは ( [lecture11.md](reports\lecture11.md) )
+11. インフラのコード化を支援するツール、インフラのテストとは ( [lecture11.md](reports/lecture11.md) )
     * ServerSpec のテストが成功することを確認する
       + 提供されるサンプルをカスタマイズする
       + テスト定義には決まった答えはないので、自由な発想で色々試す
-12. Terraform、 DevOps 、 CI/CD ツールとは ( [lecture12.md](reports\lecture12.md) )
+12. Terraform、 DevOps 、 CI/CD ツールとは ( [lecture12.md](reports/lecture12.md) )
     * 提供される CircleCI のサンプルコンフィグを、正しく動作するようにリポジトリに組み込む
-13. Ansible 、 OpsWorks 、 CircleCI との併用 ( [lecture13.md](reports\lecture13.md) )
+13. Ansible 、 OpsWorks 、 CircleCI との併用 ( [lecture13.md](reports/lecture13.md) )
     * CircleCI のサンプルに ServerSpec と Ansible の処理を追加する
 14. ライブコーディング ( Ansible 〜 CircleCI )
     * これまでの AWS 構成図、自動化処理がわかる図、リポジトリの README を作る
