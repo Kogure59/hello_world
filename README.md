@@ -5,7 +5,7 @@
 - [成果物](#成果物)
   * [AWS EC2 上での Rails アプリのデプロイ](#aws-ec2-上での-rails-アプリのデプロイ)
   * [CloudFormation による自動構築](#cloudformation-による自動構築)
-  * [CircleCI による CI/CD 環境の構築](#circleci-による-ci/cd-環境の構築)
+  * [CircleCI による CI/CD 環境の構築](#circleci-による-cicd-環境の構築)
 - [プロジェクトの作業手順](#プロジェクトの作業手順)
 - [学習記録](#学習記録)
   * [RaiseTechの課題](#raisetechの課題)
@@ -16,10 +16,10 @@
 - Web サーバ ( Nginx ) + アプリケーションサーバ ( Unicorn ) でデプロイ
 - ELB ( ALB ) 、 S3 を追加
 - 構築した環境の構成図を作成
-### CloudFormation によるインフラ環境/リソースの構築
+### CloudFormation を用いたインフラ環境/リソースの構築
 - テンプレートファイルを作成
 - 作成したテンプレートファイルからスタックを作成
-### CircleCI による CI/CD 環境の構築
+### CircleCI を用いた CI/CD 環境の構築
   * cfn-lint を実行し、 CloudFormation のテンプレートの検証を自動化する
   * CloudFormation を実行し、環境構築を自動化する
   * Ansible を実行し、プロビジョニングを自動化する
@@ -37,7 +37,7 @@ Rails アプリの Web サーバーと AP サーバーは、組み込みサー�
 上記と同様の環境を構築しました。  
 詳細は [lecture10.md](reports/lecture10.md) を参照してください。  
 CloudFormation のコードは [cloudformation](cloudformation) ディレクトリを参照してください。
-### CircleCI による CI/CD 環境の構築
+### CircleCI による CI/CD 環境の構築 
 詳細は下記の md ファイルを参照してください。  
 [lecture11.md](reports/lecture11.md) 、 [lecture12.md](reports/lecture12.md) 、 [lecture13.md](reports/lecture13.md)
 
