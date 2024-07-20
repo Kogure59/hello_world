@@ -94,10 +94,10 @@ CloudFormation のコードは [cloudformation](cloudformation) ディレクト�
   - AWS Systems Manager のパラメーターストアで、作成されたキーペアの値を取得します。  
 「復号化された値を表示」をオンにすることで値が表示されます。
 ![alt text](images/images_readme/README/paramaterstore.png)
-  - CircleCI の **Project Settings** → **SSH Keys** → **Additional SSH Keys** → **Add SSH Keys** へ進み取得したキーペアの値を入力します。 Hostname には作成された Elastic IP アドレスを入力します。 
+  - CircleCI の **Project Settings** → **SSH Keys** → **Additional SSH Keys** → **Add SSH Keys** へ進み取得したキーペアの値を入力します。   
+  Hostname には作成された Elastic IP アドレスを入力します。  
 ![alt text](images/images_readme/README/add_ssh.png)  
-
-    その後、表示された Fingerprint の値を `.circleci/config.yml` の `add_ssh_keys` ステップで記入します。
+  - 表示された Fingerprint の値を `.circleci/config.yml` の `add_ssh_keys` ステップで記入します。
 ![alt text](images/images_readme/README/add_ssh_2.png)
 ![alt text](images/images_readme/README/add_ssh_job.png)
 
