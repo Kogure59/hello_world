@@ -29,7 +29,7 @@
 詳細は下記の md ファイルを参照してください。  
 [lecture04.md](reports/lecture04.md) 、 [lecture05.md](reports/lecture05.md)  
 
-手動で下記の図のような環境を構築し、 Rails アプリをデプロイしました。  
+手動で下記の AWS 構成図のような環境を構築し、 Rails アプリをデプロイしました。  
 EC2 の OS は Amazon Linux 2 、 RDS は MySQL を利用。  
 Rails アプリの Web サーバーと AP サーバーは、組み込みサーバーである Puma でのデプロイに加え、 Nginx + Unicorn の構成でのデプロイを実践しました。
 ![構成図](/images/images_lec05/lecture05/lecture05_構成図_2.png)
@@ -41,13 +41,14 @@ CloudFormation のコードは [cloudformation](cloudformation) ディレクト�
 詳細は下記の md ファイルを参照してください。  
 [lecture11.md](reports/lecture11.md) 、 [lecture12.md](reports/lecture12.md) 、 [lecture13.md](reports/lecture13.md)
 
-下記の図のように GitHub へのプッシュを CircleCI が検知し、 AWS 環境の構築、アプリデプロイのためのセットアップ、サーバーのテストを自動化しています。  
-手動構築をした環境では Nginx + Unicorn の構成でしたが、サンプルアプリケーションのリポジトリにおける Ruby と Rails のバージョンアップが行われたため、 Nginx + Puma の構成で環境を構築しました。  
+下記の AWS 構成図のように GitHub へのプッシュを CircleCI が検知し、 AWS 環境の構築、アプリデプロイのためのセットアップ、サーバーのテストを自動化しています。  
+
+※ 手動構築をした環境では Nginx + Unicorn の構成でしたが、サンプルアプリケーションのリポジトリにおける Ruby と Rails のバージョンアップが行われたため、 Nginx + Puma の構成で環境を構築しました。  
 
 各ツールのコードは下記のディレクトリを参照してください。  
 [.circleci](.circleci) 、 [cloudformation](cloudformation) 、 [ansible](ansible) 、 [serverspec](serverspec)
 
-![構成図](/images/images_lec13/lecture13/lec13_drawio.png)
+![構成図](images/images_readme/README/aws_diagram.png)
 ## プロジェクトの作業手順  
 まず、前提として
   - CircleCI のアカウントを所持している
