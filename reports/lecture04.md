@@ -7,21 +7,21 @@
 - EC2からRDSへ接続し、正常であることを確認
 
 ### AWS上に新しくVPCを作成
-![VPC](images_lec04/new_vpc_lecture04.png)
+![VPC](/images/images_lec04/new_vpc_lecture04.png)
 
 ### EC2インスタンスを作成
-![EC2](images_lec04/created_ec2_lecture04.png)
-![EC2_SG](images_lec04/ec2_security_group_lecture04_v2.png)
+![EC2](/images/images_lec04/created_ec2_lecture04.png)
+![EC2_SG](/images/images_lec04/ec2_security_group_lecture04_v2.png)
 
 ### RDSを作成
-![RDS](images_lec04/created_rds_lecture04.png)
-![RDS_SG](images_lec04/rds_security_group_lecture04_v2.png)
-![RDS_SubnetG](images_lec04/rds_subnet_group_lecture04.png)
+![RDS](/images/images_lec04/created_rds_lecture04.png)
+![RDS_SG](/images/images_lec04/rds_security_group_lecture04_v2.png)
+![RDS_SubnetG](/images/images_lec04/rds_subnet_group_lecture04.png)
 
 ### EC2からRDSへ接続し、正常であることを確認
 - Tera Termで、作成したEC2インスタンスにSSH接続
 - RDSへ接続
-![CONNECTION](images_lec04/connect_to_rds_from_ec2.png)
+![CONNECTION](/images/images_lec04/connect_to_rds_from_ec2.png)
 
 ## 今回の課題から学んだこと
 - 無料利用枠内でのAWS環境構築の方法

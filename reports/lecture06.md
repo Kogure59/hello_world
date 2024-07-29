@@ -13,16 +13,16 @@ CloudTrail イベントから探し出す  (自身の IAM ユーザー名があ�
 ### CloudWatch アラームを使って、ALB のアラームを設定して、メール通知してみる
 
 - Unicornが停止している状態
-![Alt text](images_lec06/lecture06/CloudWatch_unhealthy_unicorn_stop.png)
+![Alt text](/images/images_lec06/lecture06/CloudWatch_unhealthy_unicorn_stop.png)
 
   通知メール
-  ![Alt text](images_lec06/lecture06/CloudWatch_unhealthy_unicorn_stop_Email.png)
+  ![Alt text](/images/images_lec06/lecture06/CloudWatch_unhealthy_unicorn_stop_Email.png)
 
 - Unicornを起動した状態
-![Alt text](images_lec06/lecture06/CloudWatch_unhealthy_unicorn_restart.png)
+![Alt text](/images/images_lec06/lecture06/CloudWatch_unhealthy_unicorn_restart.png)
 
   通知メール
-  ![Alt text](images_lec06/lecture06/CloudWatch_unhealthy_unicorn_restart_Email.png)
+  ![Alt text](/images/images_lec06/lecture06/CloudWatch_unhealthy_unicorn_restart_Email.png)
 
 ### AWS 利用料の見積を作成
 Pricing Calculater でリソース利用料の見積りを作成した。
@@ -32,8 +32,8 @@ Pricing Calculater でリソース利用料の見積りを作成した。
 ### マネジメントコンソールから、現在の利用料を確認
 先月の請求と EC2 の料金
 
-![Alt text](images_lec06/lecture06/billing_last_month_1.png)
-![Alt text](images_lec06/lecture06/billing_last_month_2.png)
+![Alt text](/images/images_lec06/lecture06/billing_last_month_1.png)
+![Alt text](/images/images_lec06/lecture06/billing_last_month_2.png)
 
 - 使っていない EC2 インスタンスにアタッチされたボリュームがあり、使用中のものと合わせて無料利用枠を超えていた。
 - 今月そのコストを発生させないために不要な EC2 インスタンスを削除し、アタッチされたボリュームを削除した。

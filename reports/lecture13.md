@@ -10,20 +10,20 @@ ServerSpec や Ansible の処理を追加するにあたって、まず Ansible 
 - execute-serverspec: ServerSpec でテスト [serverspec/](serverspec/)
 #### 実行結果
 - cfn-lint
-![Alt text](images_lec13/lecture13/cfn_lint_lec13.png)  
+![Alt text](/images/images_lec13/lecture13/cfn_lint_lec13.png)  
 
 - execute-cfn
-![Alt text](images_lec13/lecture13/execute_cfn_lec13.png)  
+![Alt text](/images/images_lec13/lecture13/execute_cfn_lec13.png)  
 
 - execute-ansible
-![Alt text](images_lec13/lecture13/execute_ansible_lec13.png)
-![Alt text](images_lec13/lecture13/execute_ansible_lec13_2.png)  
+![Alt text](/images/images_lec13/lecture13/execute_ansible_lec13.png)
+![Alt text](/images/images_lec13/lecture13/execute_ansible_lec13_2.png)  
 
 - execute-serverspec
-![Alt text](images_lec13/lecture13/execute_serverspec_lec13.png)
-![Alt text](images_lec13/lecture13/execute_serverspec_lec13_2.png)
+![Alt text](/images/images_lec13/lecture13/execute_serverspec_lec13.png)
+![Alt text](/images/images_lec13/lecture13/execute_serverspec_lec13_2.png)
 #### Workflow Pipeline
-![Alt text](images_lec13/lecture13/workflow_pipeline_lec13.png)
+![Alt text](/images/images_lec13/lecture13/workflow_pipeline_lec13.png)
 ---
 ### Windows に circleci-cli をインストール
 CircleCI 公式の推奨通り Chocolatey を用いてインストールした。PowerShellを管理者権限で開いて chocolatey をインストールし、その後 choco コマンドで circleci-cli をインストールした。
